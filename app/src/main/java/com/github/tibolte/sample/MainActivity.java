@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
     @Override
     public void onScrollToDate(Calendar calendar) {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+            getSupportActionBar().setTitle(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())+" "+calendar.get(Calendar.YEAR));
         }
     }
 
@@ -106,16 +106,16 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         Calendar startTime1 = Calendar.getInstance();
         Calendar endTime1 = Calendar.getInstance();
         endTime1.add(Calendar.MONTH, 1);
-        BaseCalendarEvent event1 = new BaseCalendarEvent("Thibault travels in Iceland", "A wonderful journey!", "Iceland",
-                ContextCompat.getColor(this, R.color.orange_dark), startTime1, endTime1, true);
+        BaseCalendarEvent event1 = new BaseCalendarEvent("Revisión requerimientos", "Diseño App", "Despacho 1",
+                ContextCompat.getColor(this, R.color.theme_event_pending), startTime1, endTime1, true);
         eventList.add(event1);
 
         Calendar startTime2 = Calendar.getInstance();
         startTime2.add(Calendar.DAY_OF_YEAR, 1);
         Calendar endTime2 = Calendar.getInstance();
         endTime2.add(Calendar.DAY_OF_YEAR, 3);
-        BaseCalendarEvent event2 = new BaseCalendarEvent("Visit to Dalvík", "A beautiful small town", "Dalvík",
-                ContextCompat.getColor(this, R.color.yellow), startTime2, endTime2, true);
+        BaseCalendarEvent event2 = new BaseCalendarEvent("Arquitectura, reunión seguimiento", "Reunión periodica importante", "Sala 2B",
+                ContextCompat.getColor(this, R.color.theme_event_pending), startTime2, endTime2, true);
         eventList.add(event2);
 
         Calendar startTime3 = Calendar.getInstance();
@@ -124,8 +124,8 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         startTime3.set(Calendar.MINUTE, 0);
         endTime3.set(Calendar.HOUR_OF_DAY, 15);
         endTime3.set(Calendar.MINUTE, 0);
-        DrawableCalendarEvent event3 = new DrawableCalendarEvent("Visit of Harpa", "", "Dalvík",
-                ContextCompat.getColor(this, R.color.blue_dark), startTime3, endTime3, false, android.R.drawable.ic_dialog_info);
+        BaseCalendarEvent event3 = new BaseCalendarEvent("Reunión de coordinación AGN", "i", "Despacho 2",
+                ContextCompat.getColor(this, R.color.theme_event_confirmed), startTime3, endTime3, true);
         eventList.add(event3);
     }
 

@@ -14,11 +14,13 @@
     <color name="agenda_list_header_divider">#E4E4E4</color>
 
     <!-- General -->
-    <color name="blue_selected">#1D87E7</color>
-    <color name="theme_primary_dark">#1976D2</color>
-    <color name="theme_primary">#2196F3</color>
-    <color name="theme_light_primary">#BBDEFB</color>
-    <color name="theme_accent">#FFEB3B</color>
+    <color name="blue_selected">#2b5696</color>
+    <color name="theme_primary_dark">#2b5696</color>
+    <color name="theme_primary">#2b5696</color>
+    <color name="theme_light_primary">#e2872c</color>
+    <color name="theme_accent">#e2872c</color>
+    <color name="theme_event_pending">#9C9CA0</color>
+    <color name="theme_event_confirmed">#e2872c</color>
     <color name="theme_text_icons">#FFFFFF</color>
 
 </resources>
