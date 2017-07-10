@@ -6,6 +6,12 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
+    <LinearLayout
+        android:id="@+id/view_agenda_event_left"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+
     <!-- Description -->
     <LinearLayout
             android:id="@+id/view_agenda_event_description_container"
@@ -18,7 +24,7 @@
                 android:id="@+id/view_agenda_event_title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textColor="@android:color/black"
+                android:textColor="@color/blue_selected"
                 android:textSize="16dp"/>
 
         <LinearLayout

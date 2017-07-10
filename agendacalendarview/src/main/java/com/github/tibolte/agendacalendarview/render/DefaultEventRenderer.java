@@ -21,6 +21,7 @@ public class DefaultEventRenderer extends EventRenderer<BaseCalendarEvent> {
         TextView txtLocation = (TextView) view.findViewById(R.id.view_agenda_event_location);
         LinearLayout descriptionContainer = (LinearLayout) view.findViewById(R.id.view_agenda_event_description_container);
         LinearLayout locationContainer = (LinearLayout) view.findViewById(R.id.view_agenda_event_location_container);
+        LinearLayout descriptionContainerLeft = (LinearLayout) view.findViewById(R.id.view_agenda_event_left);
 
         descriptionContainer.setVisibility(View.VISIBLE);
         txtTitle.setTextColor(view.getResources().getColor(android.R.color.black));
@@ -35,11 +36,11 @@ public class DefaultEventRenderer extends EventRenderer<BaseCalendarEvent> {
         }
 
         if (event.getTitle().equals(view.getResources().getString(R.string.agenda_event_no_events))) {
-            txtTitle.setTextColor(view.getResources().getColor(android.R.color.black));
+            txtTitle.setTextColor(view.getResources().getColor(R.color.blue_selected));
         } else {
             txtTitle.setTextColor(view.getResources().getColor(R.color.theme_text_icons));
         }
-        descriptionContainer.setBackgroundColor(event.getColor());
+        descriptionContainerLeft.setBackgroundColor(event.getColor());
         txtLocation.setTextColor(view.getResources().getColor(R.color.theme_text_icons));
     }
 

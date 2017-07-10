@@ -4,6 +4,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/view_agenda_event_description_container"
+        android:layout_width="match_parent"
+        android:background="@color/blue_selected"
+        android:layout_height="2dp"
+        android:orientation="vertical" />
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

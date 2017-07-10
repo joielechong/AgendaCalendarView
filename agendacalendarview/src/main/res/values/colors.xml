@@ -11,7 +11,7 @@
     <color name="calendar_divider_color">#F3F3F3</color>
 
     <!-- Colors for Agenda view -->
-    <color name="agenda_list_header_divider">#E4E4E4</color>
+    <color name="agenda_list_header_divider">#2b5696</color>
 
     <!-- General -->
     <color name="blue_selected">#2b5696</color>
@@ -21,6 +21,6 @@
     <color name="theme_accent">#e2872c</color>
     <color name="theme_event_pending">#9C9CA0</color>
     <color name="theme_event_confirmed">#e2872c</color>
-    <color name="theme_text_icons">#FFFFFF</color>
+    <color name="theme_text_icons">#2b5696</color>
 
 </resources>
