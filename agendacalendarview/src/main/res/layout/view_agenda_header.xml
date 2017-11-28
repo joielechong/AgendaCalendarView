@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.tibolte.agendacalendarview.agenda.AgendaHeaderView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.rilixtech.agendacalendarview.agenda.AgendaHeaderView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -50,4 +50,4 @@
 
     </FrameLayout>
 
-</com.github.tibolte.agendacalendarview.agenda.AgendaHeaderView>
+</com.rilixtech.agendacalendarview.agenda.AgendaHeaderView>

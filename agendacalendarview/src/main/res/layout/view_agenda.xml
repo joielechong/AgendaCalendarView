@@ -9,7 +9,7 @@
         android:background="@drawable/shadow">
     </View>
 
-    <com.github.tibolte.agendacalendarview.agenda.AgendaListView
+    <com.rilixtech.agendacalendarview.agenda.AgendaListView
         android:id="@+id/agenda_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

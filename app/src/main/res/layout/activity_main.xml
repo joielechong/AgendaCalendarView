@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context="com.rilixtech.sample.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/activity_toolbar"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/theme_primary_dark" />
 
-    <com.github.tibolte.agendacalendarview.AgendaCalendarView
+    <com.rilixtech.agendacalendarview.AgendaCalendarView
         android:id="@+id/agenda_calendar_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

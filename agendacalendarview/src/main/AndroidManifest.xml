@@ -1,3 +1,2 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.tibolte.agendacalendarview">
+<manifest package="com.rilixtech.agendacalendarview">
 </manifest>

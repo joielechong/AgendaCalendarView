@@ -24,7 +24,7 @@
 
     </LinearLayout>
 
-    <com.github.tibolte.agendacalendarview.calendar.weekslist.WeekListView
+    <com.rilixtech.agendacalendarview.calendar.weekslist.WeekListView
         android:id="@+id/list_week"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
