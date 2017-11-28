@@ -1,50 +1,45 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.3'
+  compileSdkVersion 26
+  buildToolsVersion '26.0.2'
 
-    defaultConfig {
-        applicationId "com.github.tibolte.sample"
-        minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+  defaultConfig {
+    applicationId "com.github.tibolte.sample"
+    minSdkVersion 14
+    targetSdkVersion 26
+    versionCode 1
+    versionName "1.0"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+  }
 
-    //avoid duplicate files during packaging of APK
-    packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'LICENSE.txt'
-    }
+  //avoid duplicate files during packaging of APK
+  packagingOptions {
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/LICENSE.txt'
+    exclude 'META-INF/NOTICE'
+    exclude 'LICENSE.txt'
+  }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 }
 
 configurations {
-    compile.exclude module: 'support-annotations'
+  compile.exclude module: 'support-annotations'
 }
 
 dependencies {
-    compile project(':agendacalendarview')
+  compile project(':agendacalendarview')
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Google libraries
-    compile 'com.android.support:appcompat-v7:23.1.1'
-
-    // Other libraries
-    compile 'com.jakewharton:butterknife:7.0.0'
+  compile 'com.android.support:appcompat-v7:26.1.0'
 }
