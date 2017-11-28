@@ -1,12 +1,14 @@
 package com.github.tibolte.agendacalendarview.calendar.weekslist;
 
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
+import com.github.tibolte.agendacalendarview.utils.CalendarScrolledEvent;
 import com.github.tibolte.agendacalendarview.utils.Events;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import org.greenrobot.eventbus.EventBus;
 
 public class WeekListView extends RecyclerView {
     private boolean mUserScrolling = false;
@@ -70,7 +72,9 @@ public class WeekListView extends RecyclerView {
                     break;
                 // If scroll is caused by a touch (scroll touch, not any touch)
                 case SCROLL_STATE_DRAGGING:
-                    BusProvider.getInstance().send(new Events.CalendarScrolledEvent());
+
+                    EventBus.getDefault().post(new CalendarScrolledEvent());
+                    //BusProvider.getInstance().send(new Events.CalendarScrolledEvent());
                     // If scroll was initiated already, this is not a user scrolling, but probably a tap, else set userScrolling
                     if (!mScrolling) {
                         mUserScrolling = true;

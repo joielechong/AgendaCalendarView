@@ -9,31 +9,31 @@ import java.util.Calendar;
  */
 public class Events {
 
-    public static class DayClickedEvent {
+    //public static class DayClickedEvent {
+    //
+    //    public Calendar mCalendar;
+    //    public IDayItem mDayItem;
+    //
+    //    public DayClickedEvent(IDayItem dayItem) {
+    //        this.mCalendar = Calendar.getInstance();
+    //        this.mCalendar.setTime(dayItem.getDate());
+    //        this.mDayItem = dayItem;
+    //    }
+    //
+    //    public Calendar getCalendar() {
+    //        return mCalendar;
+    //    }
+    //
+    //    public IDayItem getDay() {
+    //        return mDayItem;
+    //    }
+    //}
 
-        public Calendar mCalendar;
-        public IDayItem mDayItem;
+    //public static class CalendarScrolledEvent {
+    //}
 
-        public DayClickedEvent(IDayItem dayItem) {
-            this.mCalendar = Calendar.getInstance();
-            this.mCalendar.setTime(dayItem.getDate());
-            this.mDayItem = dayItem;
-        }
-
-        public Calendar getCalendar() {
-            return mCalendar;
-        }
-
-        public IDayItem getDay() {
-            return mDayItem;
-        }
-    }
-
-    public static class CalendarScrolledEvent {
-    }
-
-    public static class AgendaListViewTouchedEvent {
-    }
+    //public static class AgendaListViewTouchedEvent {
+    //}
 
     public static class EventsFetched {
     }

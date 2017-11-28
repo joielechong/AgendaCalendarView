@@ -1,11 +1,13 @@
 package com.github.tibolte.agendacalendarview.calendar.weekslist;
 
+import android.util.Log;
 import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.R;
 import com.github.tibolte.agendacalendarview.models.IDayItem;
 import com.github.tibolte.agendacalendarview.models.IWeekItem;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
+import com.github.tibolte.agendacalendarview.utils.DayClickedEvent;
 import com.github.tibolte.agendacalendarview.utils.Events;
 
 import android.animation.Animator;
@@ -27,8 +29,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import org.greenrobot.eventbus.EventBus;
 
-public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHolder> {
+public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>
+implements Observer {
+
+    public static final String TAG = WeeksAdapter.class.getSimpleName();
 
     public static final long FADE_DURATION = 250;
 
@@ -47,6 +55,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
         this.mDayTextColor = dayTextColor;
         this.mCurrentDayColor = currentDayTextColor;
         this.mPastDayTextColor = pastDayTextColor;
+
     }
 
     // endregion
@@ -103,6 +112,10 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
         return mWeeksList.size();
     }
 
+    @Override public void update(Observable observable, Object data) {
+
+    }
+
     // endregion
 
     // region Class - WeekViewHolder
@@ -135,8 +148,14 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
                 TextView txtDay = (TextView) cellItem.findViewById(R.id.view_day_day_label);
                 TextView txtMonth = (TextView) cellItem.findViewById(R.id.view_day_month_label);
                 View circleView = cellItem.findViewById(R.id.view_day_circle_selected);
-                cellItem.setOnClickListener(v->BusProvider.getInstance().send(new Events.DayClickedEvent(dayItem)));
-
+                //cellItem.setOnClickListener(v->BusProvider.getInstance().send(new Events.DayClickedEvent(dayItem)));
+                cellItem.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                        Log.d(TAG, "Clicked item");
+                        //new DayClickedEvent(dayItem);
+                        EventBus.getDefault().post(new DayClickedEvent(dayItem));
+                    }
+                });
                 txtMonth.setVisibility(View.GONE);
                 txtDay.setTextColor(mDayTextColor);
                 txtMonth.setTextColor(mDayTextColor);
