@@ -1,10 +1,8 @@
 # AgendaCalendarView
 
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AgendaCalendarView-green.svg?style=true)](https://android-arsenal.com/details/1/2796)
-
 This library replicates the basic features of the Calendar and Agenda views from the Sunrise Calendar (now Outlook) app, coupled with some small design touch from the Google Calendar app.  
 
-![](https://raw.githubusercontent.com/Tibolte/AgendaCalendarView/master/demo.gif)  
+![](https://raw.githubusercontent.com/joielechong/AgendaCalendarView/master/demo.gif)
 
 Usage
 ===============================
@@ -12,13 +10,13 @@ Usage
 Grab it from maven:
 
 ```groovy
-    compile 'com.github.tibolte:agendacalendarview:1.0.4'
+    compile 'com.github.joielechong:agendacalendarview:1.1.1'
 ````  
 
 Declare this view in your layout like below, providing your own theme and colors if you want.
 
 ```java
-    <com.github.tibolte.agendacalendarview.AgendaCalendarView
+    <com.rilixtech.agendacalendarview.AgendaCalendarView
         android:id="@+id/agenda_calendar_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -116,7 +114,7 @@ Here is a quick (and very simple) example providing a list of events, you can pr
 . Easier way to provide your own list of events (i.e when receiving objects from a web API)
 
 # Participating?
-Make your pull requests on feature or bugfix branches.  
+Make your pull requests on feature or bug fix branches.
 
 # Special thanks to these contributors
 [FHellmann](https://github.com/FHellmann)

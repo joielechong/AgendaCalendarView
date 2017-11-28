@@ -26,19 +26,16 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
 
   private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-  //@Bind(R.id.activity_toolbar)
-  Toolbar mToolbar;
-  //@Bind(R.id.agenda_calendar_view)
-  AgendaCalendarView mAgendaCalendarView;
+  private Toolbar mToolbar;
+  private AgendaCalendarView mAgendaCalendarView;
 
   // region Lifecycle methods
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    //ButterKnife.bind(this);
-    mToolbar = (Toolbar) findViewById(R.id.activity_toolbar);
-    mAgendaCalendarView = (AgendaCalendarView) findViewById(R.id.agenda_calendar_view);
+    mToolbar = findViewById(R.id.activity_toolbar);
+    mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
     setSupportActionBar(mToolbar);
 
     // minimum and maximum date of our calendar
