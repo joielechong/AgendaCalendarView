@@ -7,7 +7,18 @@ This library replicates the basic features of the Calendar and Agenda views from
 Usage
 ===============================
 
-Grab it from maven:
+First, add the JitPack repository to root build.gradle:
+
+```groovy
+   allprojects {
+         repositories {
+              ...
+              maven { url 'https://jitpack.io' }
+         }
+   }
+````
+
+Then add the dependency:
 
 ```groovy
     compile 'com.github.joielechong:agendacalendarview:1.1.1'
