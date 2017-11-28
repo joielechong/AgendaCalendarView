@@ -35,9 +35,9 @@ public class Events {
     //public static class AgendaListViewTouchedEvent {
     //}
 
-    public static class EventsFetched {
-    }
+    //public static class EventsFetched {
+    //}
 
-    public static class ForecastFetched {
-    }
+    //public static class ForecastFetched {
+    //}
 }

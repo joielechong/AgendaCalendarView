@@ -30,6 +30,7 @@ import com.github.tibolte.agendacalendarview.render.EventRenderer;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
 import com.github.tibolte.agendacalendarview.utils.DayClickedEvent;
 import com.github.tibolte.agendacalendarview.utils.Events;
+import com.github.tibolte.agendacalendarview.utils.FetchedEvent;
 import com.github.tibolte.agendacalendarview.utils.ListViewScrollTracker;
 import com.github.tibolte.agendacalendarview.widgets.FloatingActionButton;
 
@@ -142,45 +143,87 @@ public class AgendaCalendarView extends FrameLayout
           mCalendarPickerController.onEventSelected(CalendarManager.getInstance().getEvents().get(position));
         });
 
-    BusProvider.getInstance().toObserverable().subscribe(event -> {
-      //if (event instanceof Events.DayClickedEvent) {
-      //  mCalendarPickerController.onDaySelected(((Events.DayClickedEvent) event).getDay());
-      //} else
+    //BusProvider.getInstance().toObserverable().subscribe(event -> {
+    //  //if (event instanceof Events.DayClickedEvent) {
+    //  //  mCalendarPickerController.onDaySelected(((Events.DayClickedEvent) event).getDay());
+    //  //} else
+    //
+    //  if (event instanceof Events.EventsFetched) {
+    //    ObjectAnimator alphaAnimation = new ObjectAnimator().ofFloat(this, "alpha", getAlpha(), 1f).setDuration(500);
+    //    alphaAnimation.addListener(new Animator.AnimatorListener() {
+    //      @Override public void onAnimationStart(Animator animation) {
+    //
+    //      }
+    //
+    //      @Override public void onAnimationEnd(Animator animation) {
+    //        long fabAnimationDelay = 500;
+    //        // Just after setting the alpha from this view to 1, we hide the fab.
+    //        // It will reappear as soon as the user is scrolling the Agenda view.
+    //        new Handler().postDelayed(() -> {
+    //          mFloatingActionButton.hide();
+    //          mAgendaListViewScrollTracker = new ListViewScrollTracker(mAgendaView.getAgendaListView());
+    //          mAgendaView.getAgendaListView().setOnScrollListener(mAgendaScrollListener);
+    //          mFloatingActionButton.setOnClickListener((v) -> {
+    //            mAgendaView.translateList(0);
+    //            mAgendaView.getAgendaListView().scrollToCurrentDate(CalendarManager.getInstance().getToday());
+    //            new Handler().postDelayed(() -> mFloatingActionButton.hide(), fabAnimationDelay);
+    //          });
+    //        }, fabAnimationDelay);
+    //      }
+    //
+    //      @Override public void onAnimationCancel(Animator animation) {
+    //
+    //      }
+    //
+    //      @Override public void onAnimationRepeat(Animator animation) {
+    //
+    //      }
+    //    });
+    //    alphaAnimation.start();
+    //  }
+    //});
+  }
 
-      if (event instanceof Events.EventsFetched) {
-        ObjectAnimator alphaAnimation = new ObjectAnimator().ofFloat(this, "alpha", getAlpha(), 1f).setDuration(500);
-        alphaAnimation.addListener(new Animator.AnimatorListener() {
-          @Override public void onAnimationStart(Animator animation) {
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void onMessageEvent(FetchedEvent event) {
+    animateView();
+  }
 
-          }
+  private void animateView() {
+    ObjectAnimator alphaAnimation = new ObjectAnimator().ofFloat(this, "alpha", getAlpha(), 1f).setDuration(500);
+    alphaAnimation.addListener(new Animator.AnimatorListener() {
+      @Override public void onAnimationStart(Animator animation) {
 
-          @Override public void onAnimationEnd(Animator animation) {
-            long fabAnimationDelay = 500;
-            // Just after setting the alpha from this view to 1, we hide the fab.
-            // It will reappear as soon as the user is scrolling the Agenda view.
-            new Handler().postDelayed(() -> {
-              mFloatingActionButton.hide();
-              mAgendaListViewScrollTracker = new ListViewScrollTracker(mAgendaView.getAgendaListView());
-              mAgendaView.getAgendaListView().setOnScrollListener(mAgendaScrollListener);
-              mFloatingActionButton.setOnClickListener((v) -> {
-                mAgendaView.translateList(0);
-                mAgendaView.getAgendaListView().scrollToCurrentDate(CalendarManager.getInstance().getToday());
-                new Handler().postDelayed(() -> mFloatingActionButton.hide(), fabAnimationDelay);
-              });
-            }, fabAnimationDelay);
-          }
+      }
 
-          @Override public void onAnimationCancel(Animator animation) {
+      @Override public void onAnimationEnd(Animator animation) {
+        long fabAnimationDelay = 500;
+        // Just after setting the alpha from this view to 1, we hide the fab.
+        // It will reappear as soon as the user is scrolling the Agenda view.
+        new Handler().postDelayed(() -> {
+          mFloatingActionButton.hide();
+          mAgendaListViewScrollTracker = new ListViewScrollTracker(mAgendaView.getAgendaListView());
+          mAgendaView.getAgendaListView().setOnScrollListener(mAgendaScrollListener);
+          mFloatingActionButton.setOnClickListener((v) -> {
+            mAgendaView.translateList(0);
+            mAgendaView.getAgendaListView().scrollToCurrentDate(CalendarManager.getInstance().getToday());
+            new Handler().postDelayed(() -> mFloatingActionButton.hide(), fabAnimationDelay);
+          });
+        }, fabAnimationDelay);
+      }
 
-          }
+      @Override public void onAnimationCancel(Animator animation) {
 
-          @Override public void onAnimationRepeat(Animator animation) {
+      }
 
-          }
-        });
-        alphaAnimation.start();
+      @Override public void onAnimationRepeat(Animator animation) {
+
       }
     });
+    alphaAnimation.start();
+
+
+    EventBus.getDefault().post(new FetchedEvent());
   }
 
   // endregion
@@ -221,7 +264,9 @@ public class AgendaCalendarView extends FrameLayout
     mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
 
     CalendarManager.getInstance().loadEvents(eventList, new BaseCalendarEvent());
-    BusProvider.getInstance().send(new Events.EventsFetched());
+    //BusProvider.getInstance().send(new Events.EventsFetched());
+    //EventBus.getDefault().post(new FetchedEvent());
+    animateView();
     Log.d(LOG_TAG, "CalendarEventTask finished");
 
     // add default event renderer
@@ -244,7 +289,9 @@ public class AgendaCalendarView extends FrameLayout
     mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
 
     // notify that actually everything is loaded
-    BusProvider.getInstance().send(new Events.EventsFetched());
+    //BusProvider.getInstance().send(new Events.EventsFetched());
+    animateView();
+    EventBus.getDefault().post(new FetchedEvent());
     Log.d(LOG_TAG, "CalendarEventTask finished");
 
     // add default event renderer
