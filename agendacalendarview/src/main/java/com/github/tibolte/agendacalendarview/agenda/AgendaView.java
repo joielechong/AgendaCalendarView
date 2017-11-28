@@ -4,30 +4,24 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
-
 import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.R;
-import com.github.tibolte.agendacalendarview.utils.AgendaListViewTouchedEvent;
-import com.github.tibolte.agendacalendarview.utils.BusProvider;
-import com.github.tibolte.agendacalendarview.utils.CalendarScrolledEvent;
-import com.github.tibolte.agendacalendarview.utils.DayClickedEvent;
-import com.github.tibolte.agendacalendarview.utils.Events;
-import com.github.tibolte.agendacalendarview.utils.FetchedEvent;
-import com.github.tibolte.agendacalendarview.utils.ForecastFetchedEvent;
-import java.util.Observable;
-import java.util.Observer;
+import com.github.tibolte.agendacalendarview.event.AgendaListViewTouchedEvent;
+import com.github.tibolte.agendacalendarview.event.CalendarScrolledEvent;
+import com.github.tibolte.agendacalendarview.event.DayClickedEvent;
+import com.github.tibolte.agendacalendarview.event.FetchedEvent;
+import com.github.tibolte.agendacalendarview.event.ForecastFetchedEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class AgendaView extends FrameLayout implements Observer {
+public class AgendaView extends FrameLayout {
 
   private AgendaListView mAgendaListView;
   private View mShadowView;
@@ -44,9 +38,6 @@ public class AgendaView extends FrameLayout implements Observer {
 
     LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     inflater.inflate(R.layout.view_agenda, this, true);
-
-    //DayClickedEvent dayClickedEvent = DayClickedEvent.getInstance();
-    //dayClickedEvent.addObserver(this);
   }
 
   // endregion
@@ -60,83 +51,8 @@ public class AgendaView extends FrameLayout implements Observer {
     mShadowView = findViewById(R.id.view_shadow);
 
     EventBus.getDefault().register(this);
-
-    //BusProvider.getInstance().toObserverable().subscribe(event -> {
-      //if (event instanceof Events.DayClickedEvent) {
-      //  Events.DayClickedEvent clickedEvent = (Events.DayClickedEvent) event;
-      //  getAgendaListView().scrollToCurrentDate(clickedEvent.getCalendar());
-      //} else
-
-      //if (event instanceof Events.CalendarScrolledEvent) {
-      //  int offset = (int) (3 * getResources().getDimension(R.dimen.day_cell_height));
-      //  translateList(offset);
-      //} else
-
-      //  if (event instanceof Events.EventsFetched) {
-      //  ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(CalendarManager.getInstance().getEvents());
-      //
-      //  getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-      //                                                    @Override public void onGlobalLayout() {
-      //                                                      if (getWidth() != 0 && getHeight() != 0) {
-      //                                                        // display only two visible rows on the calendar view
-      //                                                        if (enablePlaceholder) {
-      //                                                          ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-      //                                                          int height = getHeight();
-      //                                                          int margin = (int) (getContext().getResources().getDimension(R.dimen.calendar_header_height)
-      //                                                              + 2 * getContext().getResources().getDimension(R.dimen.day_cell_height));
-      //                                                          layoutParams.height = height;
-      //                                                          layoutParams.setMargins(0, margin, 0, 0);
-      //                                                          setLayoutParams(layoutParams);
-      //                                                        }
-      //
-      //                                                        getAgendaListView().scrollToCurrentDate(CalendarManager.getInstance().getToday());
-      //
-      //                                                        getViewTreeObserver().removeGlobalOnLayoutListener(this);
-      //                                                      }
-      //                                                    }
-      //                                                  }
-      //
-      //  );
-      //} else
-
-      //  if (event instanceof Events.ForecastFetched) {
-      //  ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(CalendarManager.getInstance().getEvents());
-      //}
-    //});
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(ForecastFetchedEvent event) {
-    ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(CalendarManager.getInstance().getEvents());
-  }
-
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(FetchedEvent event) {
-    ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(CalendarManager.getInstance().getEvents());
-
-    getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                                                      @Override public void onGlobalLayout() {
-                                                        if (getWidth() != 0 && getHeight() != 0) {
-                                                          // display only two visible rows on the calendar view
-                                                          if (enablePlaceholder) {
-                                                            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-                                                            int height = getHeight();
-                                                            int margin = (int) (getContext().getResources().getDimension(R.dimen.calendar_header_height)
-                                                                + 2 * getContext().getResources().getDimension(R.dimen.day_cell_height));
-                                                            layoutParams.height = height;
-                                                            layoutParams.setMargins(0, margin, 0, 0);
-                                                            setLayoutParams(layoutParams);
-                                                          }
-
-                                                          getAgendaListView().scrollToCurrentDate(CalendarManager.getInstance().getToday());
-
-                                                          getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                                                        }
-                                                      }
-                                                    }
-
-    );
-  }
   @Override public boolean dispatchTouchEvent(MotionEvent event) {
     int eventaction = event.getAction();
 
@@ -213,13 +129,39 @@ public class AgendaView extends FrameLayout implements Observer {
       translateList(offset);
   }
 
-  @Override public void update(Observable observable, Object data) {
-    Log.d("AGENDA VIEW", "Called");
-    if (observable instanceof DayClickedEvent) {
-      DayClickedEvent clickedEvent = (DayClickedEvent) observable;
-      getAgendaListView().scrollToCurrentDate(clickedEvent.getCalendar());
-    }
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void onMessageEvent(ForecastFetchedEvent event) {
+    ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(CalendarManager.getInstance().getEvents());
   }
+
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void onMessageEvent(FetchedEvent event) {
+    ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(CalendarManager.getInstance().getEvents());
+
+    getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                                                      @Override public void onGlobalLayout() {
+                                                        if (getWidth() != 0 && getHeight() != 0) {
+                                                          // display only two visible rows on the calendar view
+                                                          if (enablePlaceholder) {
+                                                            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
+                                                            int height = getHeight();
+                                                            int margin = (int) (getContext().getResources().getDimension(R.dimen.calendar_header_height)
+                                                                + 2 * getContext().getResources().getDimension(R.dimen.day_cell_height));
+                                                            layoutParams.height = height;
+                                                            layoutParams.setMargins(0, margin, 0, 0);
+                                                            setLayoutParams(layoutParams);
+                                                          }
+
+                                                          getAgendaListView().scrollToCurrentDate(CalendarManager.getInstance().getToday());
+
+                                                          getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                                                        }
+                                                      }
+                                                    }
+
+    );
+  }
+
 
   // endregion
 }

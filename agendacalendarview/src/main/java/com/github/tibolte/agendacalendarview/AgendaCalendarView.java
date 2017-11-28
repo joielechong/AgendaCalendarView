@@ -27,10 +27,8 @@ import com.github.tibolte.agendacalendarview.models.IWeekItem;
 import com.github.tibolte.agendacalendarview.models.WeekItem;
 import com.github.tibolte.agendacalendarview.render.DefaultEventRenderer;
 import com.github.tibolte.agendacalendarview.render.EventRenderer;
-import com.github.tibolte.agendacalendarview.utils.BusProvider;
-import com.github.tibolte.agendacalendarview.utils.DayClickedEvent;
-import com.github.tibolte.agendacalendarview.utils.Events;
-import com.github.tibolte.agendacalendarview.utils.FetchedEvent;
+import com.github.tibolte.agendacalendarview.event.DayClickedEvent;
+import com.github.tibolte.agendacalendarview.event.FetchedEvent;
 import com.github.tibolte.agendacalendarview.utils.ListViewScrollTracker;
 import com.github.tibolte.agendacalendarview.widgets.FloatingActionButton;
 
@@ -38,8 +36,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import java.util.Observable;
-import java.util.Observer;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -48,8 +44,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 /**
  * View holding the agenda and calendar view together.
  */
-public class AgendaCalendarView extends FrameLayout
-    implements StickyListHeadersListView.OnStickyHeaderChangedListener, Observer {
+public class AgendaCalendarView extends FrameLayout implements StickyListHeadersListView.OnStickyHeaderChangedListener {
 
   private static final String LOG_TAG = AgendaCalendarView.class.getSimpleName();
 
@@ -118,9 +113,6 @@ public class AgendaCalendarView extends FrameLayout
     inflater.inflate(R.layout.view_agendacalendar, this, true);
 
     setAlpha(0f);
-
-    //DayClickedEvent dayClickedEvent = DayClickedEvent.getInstance();
-    //dayClickedEvent.addObserver(this);
   }
 
   // endregion
@@ -142,50 +134,9 @@ public class AgendaCalendarView extends FrameLayout
         .setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
           mCalendarPickerController.onEventSelected(CalendarManager.getInstance().getEvents().get(position));
         });
-
-    //BusProvider.getInstance().toObserverable().subscribe(event -> {
-    //  //if (event instanceof Events.DayClickedEvent) {
-    //  //  mCalendarPickerController.onDaySelected(((Events.DayClickedEvent) event).getDay());
-    //  //} else
-    //
-    //  if (event instanceof Events.EventsFetched) {
-    //    ObjectAnimator alphaAnimation = new ObjectAnimator().ofFloat(this, "alpha", getAlpha(), 1f).setDuration(500);
-    //    alphaAnimation.addListener(new Animator.AnimatorListener() {
-    //      @Override public void onAnimationStart(Animator animation) {
-    //
-    //      }
-    //
-    //      @Override public void onAnimationEnd(Animator animation) {
-    //        long fabAnimationDelay = 500;
-    //        // Just after setting the alpha from this view to 1, we hide the fab.
-    //        // It will reappear as soon as the user is scrolling the Agenda view.
-    //        new Handler().postDelayed(() -> {
-    //          mFloatingActionButton.hide();
-    //          mAgendaListViewScrollTracker = new ListViewScrollTracker(mAgendaView.getAgendaListView());
-    //          mAgendaView.getAgendaListView().setOnScrollListener(mAgendaScrollListener);
-    //          mFloatingActionButton.setOnClickListener((v) -> {
-    //            mAgendaView.translateList(0);
-    //            mAgendaView.getAgendaListView().scrollToCurrentDate(CalendarManager.getInstance().getToday());
-    //            new Handler().postDelayed(() -> mFloatingActionButton.hide(), fabAnimationDelay);
-    //          });
-    //        }, fabAnimationDelay);
-    //      }
-    //
-    //      @Override public void onAnimationCancel(Animator animation) {
-    //
-    //      }
-    //
-    //      @Override public void onAnimationRepeat(Animator animation) {
-    //
-    //      }
-    //    });
-    //    alphaAnimation.start();
-    //  }
-    //});
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(FetchedEvent event) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(FetchedEvent event) {
     animateView();
   }
 
@@ -221,7 +172,6 @@ public class AgendaCalendarView extends FrameLayout
       }
     });
     alphaAnimation.start();
-
 
     EventBus.getDefault().post(new FetchedEvent());
   }
@@ -313,12 +263,6 @@ public class AgendaCalendarView extends FrameLayout
     mFloatingActionButton.setVisibility(enable ? VISIBLE : GONE);
   }
 
-  @Override public void update(Observable observable, Object data) {
-    if (observable instanceof DayClickedEvent) {
-      mCalendarPickerController.onDaySelected(((DayClickedEvent) observable).getDay());
-    }
-  }
-
   @Override protected void onAttachedToWindow() {
     super.onAttachedToWindow();
     EventBus.getDefault().register(this);
@@ -330,7 +274,7 @@ public class AgendaCalendarView extends FrameLayout
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(DayClickedEvent event) {
-    mCalendarPickerController.onDaySelected(((DayClickedEvent) event).getDay());
+    mCalendarPickerController.onDaySelected(event.getDay());
   }
 
   // endregion

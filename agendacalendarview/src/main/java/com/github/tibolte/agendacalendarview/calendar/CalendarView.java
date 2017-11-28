@@ -7,12 +7,10 @@ import com.github.tibolte.agendacalendarview.calendar.weekslist.WeeksAdapter;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.IDayItem;
 import com.github.tibolte.agendacalendarview.models.IWeekItem;
-import com.github.tibolte.agendacalendarview.utils.AgendaListViewTouchedEvent;
-import com.github.tibolte.agendacalendarview.utils.BusProvider;
-import com.github.tibolte.agendacalendarview.utils.CalendarScrolledEvent;
+import com.github.tibolte.agendacalendarview.event.AgendaListViewTouchedEvent;
+import com.github.tibolte.agendacalendarview.event.CalendarScrolledEvent;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
-import com.github.tibolte.agendacalendarview.utils.DayClickedEvent;
-import com.github.tibolte.agendacalendarview.utils.Events;
+import com.github.tibolte.agendacalendarview.event.DayClickedEvent;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,8 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -38,7 +34,7 @@ import org.greenrobot.eventbus.ThreadMode;
  * The calendar view is a freely scrolling view that allows the user to browse between days of the
  * year.
  */
-public class CalendarView extends LinearLayout implements Observer {
+public class CalendarView extends LinearLayout {
 
   private static final String LOG_TAG = CalendarView.class.getSimpleName();
 
@@ -76,9 +72,6 @@ public class CalendarView extends LinearLayout implements Observer {
     inflater.inflate(R.layout.view_calendar, this, true);
 
     setOrientation(VERTICAL);
-
-    //DayClickedEvent dayClickedEvent = DayClickedEvent.getInstance();
-    //dayClickedEvent.addObserver(this);
   }
 
   // endregion
@@ -120,24 +113,7 @@ public class CalendarView extends LinearLayout implements Observer {
 
   @Override protected void onAttachedToWindow() {
     super.onAttachedToWindow();
-
-
     EventBus.getDefault().register(this);
-
-    BusProvider.getInstance().toObserverable().subscribe(event -> {
-      //if (event instanceof Events.CalendarScrolledEvent) {
-      //  expandCalendarView();
-      //} else
-
-      //  if (event instanceof Events.AgendaListViewTouchedEvent) {
-      //  collapseCalendarView();
-      //}
-
-      //else if (event instanceof Events.DayClickedEvent) {
-      //    Events.DayClickedEvent clickedEvent = (Events.DayClickedEvent) event;
-      //    updateSelectedDay(clickedEvent.getCalendar(), clickedEvent.getDay());
-      //}
-    });
   }
 
   // endregion
@@ -287,37 +263,22 @@ public class CalendarView extends LinearLayout implements Observer {
     return mCurrentListPosition;
   }
 
-  @Override public void update(Observable observable, Object data) {
-    if (observable instanceof DayClickedEvent) {
-      DayClickedEvent clickedEvent = (DayClickedEvent) observable;
-      updateSelectedDay(clickedEvent.getCalendar(), clickedEvent.getDay());
-    }
-  }
-
-  //@Override protected void onAttachedToWindow() {
-  //  super.onAttachedToWindow();
-  //  EventBus.getDefault().register(this);
-  //}
-
   @Override protected void onDetachedFromWindow() {
     EventBus.getDefault().unregister(this);
     super.onDetachedFromWindow();
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(DayClickedEvent event) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(DayClickedEvent event) {
     //getAgendaListView().scrollToCurrentDate(event.getCalendar());
     updateSelectedDay(event.getCalendar(), event.getDay());
   }
-  // endregion
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(CalendarScrolledEvent event) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(CalendarScrolledEvent event) {
     expandCalendarView();
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(AgendaListViewTouchedEvent event) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(AgendaListViewTouchedEvent event) {
     collapseCalendarView();
   }
+  // endregion
 }
