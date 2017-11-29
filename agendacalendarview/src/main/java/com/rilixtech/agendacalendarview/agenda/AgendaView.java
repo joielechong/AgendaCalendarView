@@ -87,7 +87,6 @@ public class AgendaView extends FrameLayout {
 
         @Override public void onAnimationEnd(Animator animation) {
           if (targetY == 0) {
-            //BusProvider.getInstance().send(new Events.AgendaListViewTouchedEvent());
             EventBus.getDefault().post(new AgendaListViewTouchedEvent());
           }
           mShadowView.setVisibility(VISIBLE);
@@ -108,11 +107,6 @@ public class AgendaView extends FrameLayout {
   public void enablePlaceholderForCalendar(boolean enable) {
     this.enablePlaceholder = enable;
   }
-
-  //@Override protected void onAttachedToWindow() {
-  //  super.onAttachedToWindow();
-  //  EventBus.getDefault().register(this);
-  //}
 
   @Override protected void onDetachedFromWindow() {
     EventBus.getDefault().unregister(this);

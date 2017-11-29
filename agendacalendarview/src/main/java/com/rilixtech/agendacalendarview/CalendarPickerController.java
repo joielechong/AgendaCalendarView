@@ -6,9 +6,9 @@ import com.rilixtech.agendacalendarview.models.IDayItem;
 import java.util.Calendar;
 
 public interface CalendarPickerController {
-    void onDaySelected(IDayItem dayItem);
+  void onDaySelected(IDayItem dayItem);
 
-    void onEventSelected(CalendarEvent event);
+  void onEventSelected(CalendarEvent event);
 
-    void onScrollToDate(Calendar calendar);
+  void onScrollToDate(Calendar calendar);
 }

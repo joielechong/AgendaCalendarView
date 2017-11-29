@@ -31,9 +31,9 @@ import org.greenrobot.eventbus.EventBus;
 
 public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHolder> {
 
-  public static final String TAG = WeeksAdapter.class.getSimpleName();
+  private static final String TAG = WeeksAdapter.class.getSimpleName();
 
-  public static final long FADE_DURATION = 250;
+  private static final long FADE_DURATION = 250;
 
   private Context mContext;
   private Calendar mToday;
@@ -91,7 +91,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
   // region RecyclerView.Adapter<WeeksAdapter.WeekViewHolder> methods
 
   @Override public WeekViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_week, parent, false);
+    LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+    View view = inflater.inflate(R.layout.list_item_week, parent, false);
     return new WeekViewHolder(view);
   }
 
@@ -114,14 +115,14 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
      * List of layout containers for each day
      */
     private List<LinearLayout> mCells;
-    private TextView mTxtMonth;
+    private TextView mTvMonth;
     private FrameLayout mMonthBackground;
 
     public WeekViewHolder(View itemView) {
       super(itemView);
-      mTxtMonth = (TextView) itemView.findViewById(R.id.month_label);
-      mMonthBackground = (FrameLayout) itemView.findViewById(R.id.month_background);
-      LinearLayout daysContainer = (LinearLayout) itemView.findViewById(R.id.week_days_container);
+      mTvMonth = itemView.findViewById(R.id.month_label);
+      mMonthBackground = itemView.findViewById(R.id.month_background);
+      LinearLayout daysContainer = itemView.findViewById(R.id.week_days_container);
       setUpChildren(daysContainer);
     }
 
@@ -133,49 +134,46 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
       for (int c = 0; c < dayItems.size(); c++) {
         final IDayItem dayItem = dayItems.get(c);
         LinearLayout cellItem = mCells.get(c);
-        TextView txtDay = (TextView) cellItem.findViewById(R.id.view_day_day_label);
-        TextView txtMonth = (TextView) cellItem.findViewById(R.id.view_day_month_label);
+        TextView tvDay = cellItem.findViewById(R.id.view_day_day_label);
+        TextView tvMonth = cellItem.findViewById(R.id.view_day_month_label);
         View circleView = cellItem.findViewById(R.id.view_day_circle_selected);
-        cellItem.setOnClickListener(new View.OnClickListener() {
-          @Override public void onClick(View v) {
-            Log.d(TAG, "Clicked item");
-            //new DayClickedEvent(dayItem);
-            EventBus.getDefault().post(new DayClickedEvent(dayItem));
-          }
+        cellItem.setOnClickListener(v -> {
+          Log.d(TAG, "Clicked item");
+          EventBus.getDefault().post(new DayClickedEvent(dayItem));
         });
-        txtMonth.setVisibility(View.GONE);
-        txtDay.setTextColor(mDayTextColor);
-        txtMonth.setTextColor(mDayTextColor);
+        tvMonth.setVisibility(View.GONE);
+        tvDay.setTextColor(mDayTextColor);
+        tvMonth.setTextColor(mDayTextColor);
         circleView.setVisibility(View.GONE);
 
-        txtDay.setTypeface(null, Typeface.NORMAL);
-        txtMonth.setTypeface(null, Typeface.NORMAL);
+        tvDay.setTypeface(null, Typeface.NORMAL);
+        tvMonth.setTypeface(null, Typeface.NORMAL);
 
         // Display the day
-        txtDay.setText(Integer.toString(dayItem.getValue()));
+        tvDay.setText(Integer.toString(dayItem.getValue()));
 
         // Highlight first day of the month
         if (dayItem.isFirstDayOfTheMonth() && !dayItem.isSelected()) {
-          txtMonth.setVisibility(View.VISIBLE);
-          txtMonth.setText(dayItem.getMonth());
-          txtDay.setTypeface(null, Typeface.BOLD);
-          txtMonth.setTypeface(null, Typeface.BOLD);
+          tvMonth.setVisibility(View.VISIBLE);
+          tvMonth.setText(dayItem.getMonth());
+          tvDay.setTypeface(null, Typeface.BOLD);
+          tvMonth.setTypeface(null, Typeface.BOLD);
         }
 
         // Check if this day is in the past
         if (today.getTime().after(dayItem.getDate()) && !DateHelper.sameDate(today, dayItem.getDate())) {
-          txtDay.setTextColor(mPastDayTextColor);
-          txtMonth.setTextColor(mPastDayTextColor);
+          tvDay.setTextColor(mPastDayTextColor);
+          tvMonth.setTextColor(mPastDayTextColor);
         }
 
         // Highlight the cell if this day is today
         if (dayItem.isToday() && !dayItem.isSelected()) {
-          txtDay.setTextColor(mCurrentDayColor);
+          tvDay.setTextColor(mCurrentDayColor);
         }
 
         // Show a circle if the day is selected
         if (dayItem.isSelected()) {
-          txtDay.setTextColor(mDayTextColor);
+          tvDay.setTextColor(mDayTextColor);
           circleView.setVisibility(View.VISIBLE);
           GradientDrawable drawable = (GradientDrawable) circleView.getBackground();
           drawable.setStroke((int) (1 * Resources.getSystem().getDisplayMetrics().density), mDayTextColor);
@@ -183,7 +181,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 
         // Check if the month label has to be displayed
         if (dayItem.getValue() == 15) {
-          mTxtMonth.setVisibility(View.VISIBLE);
+          mTvMonth.setVisibility(View.VISIBLE);
           SimpleDateFormat monthDateFormat =
               new SimpleDateFormat(mContext.getResources().getString(R.string.month_name_format),
                   CalendarManager.getInstance().getLocale());
@@ -191,7 +189,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
           if (today.get(Calendar.YEAR) != weekItem.getYear()) {
             month = month + String.format(" %d", weekItem.getYear());
           }
-          mTxtMonth.setText(month);
+          mTvMonth.setText(month);
         }
       }
     }
@@ -204,12 +202,12 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
     }
 
     private void setUpMonthOverlay() {
-      mTxtMonth.setVisibility(View.GONE);
+      mTvMonth.setVisibility(View.GONE);
 
       if (isDragging()) {
         AnimatorSet animatorSetFadeIn = new AnimatorSet();
         animatorSetFadeIn.setDuration(FADE_DURATION);
-        ObjectAnimator animatorTxtAlphaIn = ObjectAnimator.ofFloat(mTxtMonth, "alpha", mTxtMonth.getAlpha(), 1f);
+        ObjectAnimator animatorTxtAlphaIn = ObjectAnimator.ofFloat(mTvMonth, "alpha", mTvMonth.getAlpha(), 1f);
         ObjectAnimator animatorBackgroundAlphaIn =
             ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 1f);
         animatorSetFadeIn.playTogether(animatorTxtAlphaIn
@@ -236,7 +234,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
       } else {
         AnimatorSet animatorSetFadeOut = new AnimatorSet();
         animatorSetFadeOut.setDuration(FADE_DURATION);
-        ObjectAnimator animatorTxtAlphaOut = ObjectAnimator.ofFloat(mTxtMonth, "alpha", mTxtMonth.getAlpha(), 0f);
+        ObjectAnimator animatorTxtAlphaOut = ObjectAnimator.ofFloat(mTvMonth, "alpha", mTvMonth.getAlpha(), 0f);
         ObjectAnimator animatorBackgroundAlphaOut =
             ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 0f);
         animatorSetFadeOut.playTogether(animatorTxtAlphaOut
@@ -264,10 +262,10 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 
       if (isAlphaSet()) {
         //mMonthBackground.setAlpha(1f);
-        mTxtMonth.setAlpha(1f);
+        mTvMonth.setAlpha(1f);
       } else {
         //mMonthBackground.setAlpha(0f);
-        mTxtMonth.setAlpha(0f);
+        mTvMonth.setAlpha(0f);
       }
     }
   }

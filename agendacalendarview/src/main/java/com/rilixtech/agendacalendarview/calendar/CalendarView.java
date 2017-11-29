@@ -93,8 +93,8 @@ public class CalendarView extends LinearLayout {
   @Override protected void onFinishInflate() {
     super.onFinishInflate();
 
-    mDayNamesHeader = (LinearLayout) findViewById(R.id.cal_day_names);
-    mListViewWeeks = (WeekListView) findViewById(R.id.list_week);
+    mDayNamesHeader = findViewById(R.id.cal_day_names);
+    mListViewWeeks = findViewById(R.id.list_week);
     mListViewWeeks.setLayoutManager(new LinearLayoutManager(getContext()));
     mListViewWeeks.setHasFixedSize(true);
     mListViewWeeks.setItemAnimator(null);
@@ -204,16 +204,14 @@ public class CalendarView extends LinearLayout {
     }
 
     for (int i = 0; i < mDayNamesHeader.getChildCount(); i++) {
-      TextView txtDay = (TextView) mDayNamesHeader.getChildAt(i);
-      txtDay.setText(dayLabels[i]);
+      TextView tvDay = (TextView) mDayNamesHeader.getChildAt(i);
+      tvDay.setText(dayLabels[i]);
     }
   }
 
   private void expandCalendarView() {
     ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-    layoutParams.height =
-        (int) (getResources().getDimension(R.dimen.calendar_header_height) + 5 * getResources().getDimension(
-            R.dimen.day_cell_height));
+    layoutParams.height = (int) (getResources().getDimension(R.dimen.calendar_header_height) + 5 * getResources().getDimension(R.dimen.day_cell_height));
     setLayoutParams(layoutParams);
   }
 

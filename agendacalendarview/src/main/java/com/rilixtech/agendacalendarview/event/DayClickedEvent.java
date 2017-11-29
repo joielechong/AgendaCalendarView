@@ -9,8 +9,8 @@ import java.util.Calendar;
 
 public class DayClickedEvent {
 
-  public Calendar mCalendar;
-  public IDayItem mDayItem;
+  private Calendar mCalendar;
+  private IDayItem mDayItem;
 
   public DayClickedEvent(IDayItem dayItem) {
     this.mCalendar = Calendar.getInstance();

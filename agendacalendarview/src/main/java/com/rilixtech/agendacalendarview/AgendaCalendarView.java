@@ -122,9 +122,9 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 
   @Override protected void onFinishInflate() {
     super.onFinishInflate();
-    mCalendarView = (CalendarView) findViewById(R.id.calendar_view);
-    mAgendaView = (AgendaView) findViewById(R.id.agenda_view);
-    mFloatingActionButton = (FloatingActionButton) findViewById(R.id.floating_action_button);
+    mCalendarView = findViewById(R.id.calendar_view);
+    mAgendaView = findViewById(R.id.agenda_view);
+    mFloatingActionButton = findViewById(R.id.floating_action_button);
     ColorStateList csl = new ColorStateList(new int[][] { new int[0] }, new int[] { mFabColor });
     mFloatingActionButton.setBackgroundTintList(csl);
 
@@ -144,7 +144,6 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
   private void animateView() {
     ObjectAnimator alphaAnimation = ObjectAnimator.ofFloat(this, "alpha", getAlpha(), 1f).setDuration(500);
 
-    //ObjectAnimator alphaAnimation = new ObjectAnimator().ofFloat(this, "alpha", getAlpha(), 1f).setDuration(500);
     alphaAnimation.addListener(new Animator.AnimatorListener() {
       @Override public void onAnimationStart(Animator animation) {
 
@@ -217,8 +216,6 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
     mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
 
     CalendarManager.getInstance().loadEvents(eventList, new BaseCalendarEvent());
-    //BusProvider.getInstance().send(new Events.EventsFetched());
-    //EventBus.getDefault().post(new FetchedEvent());
     animateView();
     Log.d(LOG_TAG, "CalendarEventTask finished");
 

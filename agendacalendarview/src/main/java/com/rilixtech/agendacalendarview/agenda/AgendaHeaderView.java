@@ -46,21 +46,20 @@ public class AgendaHeaderView extends LinearLayout {
   // region Public methods
 
   public void setDay(Calendar day, int currentDayTextColor) {
-    TextView txtDayOfMonth = (TextView) findViewById(R.id.view_agenda_day_of_month);
-    TextView txtDayOfWeek = (TextView) findViewById(R.id.view_agenda_day_of_week);
+    TextView tvDayOfMonth = findViewById(R.id.view_agenda_day_of_month);
+    TextView tvDayOfWeek = findViewById(R.id.view_agenda_day_of_week);
     View circleView = findViewById(R.id.view_day_circle_selected);
 
     Calendar today = CalendarManager.getInstance().getToday();
 
     SimpleDateFormat dayWeekFormatter = new SimpleDateFormat(getContext().getString(R.string.day_name_format),
         CalendarManager.getInstance().getLocale());
-    ;
 
-    txtDayOfMonth.setTextColor(getResources().getColor(R.color.calendar_text_default));
-    txtDayOfWeek.setTextColor(getResources().getColor(R.color.calendar_text_default));
+    tvDayOfMonth.setTextColor(getResources().getColor(R.color.calendar_text_default));
+    tvDayOfWeek.setTextColor(getResources().getColor(R.color.calendar_text_default));
 
     if (DateHelper.sameDate(day, today)) {
-      txtDayOfMonth.setTextColor(currentDayTextColor);
+      tvDayOfMonth.setTextColor(currentDayTextColor);
       circleView.setVisibility(VISIBLE);
       GradientDrawable drawable = (GradientDrawable) circleView.getBackground();
       drawable.setStroke((int) (2 * Resources.getSystem().getDisplayMetrics().density), currentDayTextColor);
@@ -68,8 +67,8 @@ public class AgendaHeaderView extends LinearLayout {
       circleView.setVisibility(INVISIBLE);
     }
 
-    txtDayOfMonth.setText(String.valueOf(day.get(Calendar.DAY_OF_MONTH)));
-    txtDayOfWeek.setText(dayWeekFormatter.format(day.getTime()));
+    tvDayOfMonth.setText(String.valueOf(day.get(Calendar.DAY_OF_MONTH)));
+    tvDayOfWeek.setText(dayWeekFormatter.format(day.getTime()));
   }
 
   // endregion
