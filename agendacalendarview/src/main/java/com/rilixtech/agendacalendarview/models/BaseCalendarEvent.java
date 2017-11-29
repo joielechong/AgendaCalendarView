@@ -133,6 +133,45 @@ public class BaseCalendarEvent implements CalendarEvent {
     this.mAllDay = allDay;
   }
 
+  public static BaseCalendarEvent create() {
+    return new BaseCalendarEvent();
+  }
+
+  public BaseCalendarEvent title(String title) {
+    this.mTitle = title;
+    return this;
+  }
+
+  public BaseCalendarEvent description(String description) {
+    this.mDescription = description;
+    return this;
+  }
+
+  public BaseCalendarEvent location(String location) {
+    this.mLocation = location;
+    return this;
+  }
+
+  public BaseCalendarEvent color(int color) {
+    this.mColor = color;
+    return this;
+  }
+
+  public BaseCalendarEvent startTime(Calendar startTime) {
+    this.mStartTime = startTime;
+    return this;
+  }
+
+  public BaseCalendarEvent endTime(Calendar endTime) {
+    this.mEndTime = endTime;
+    return this;
+  }
+
+  public BaseCalendarEvent allDay(boolean isAllDay) {
+   this.mAllDay = isAllDay;
+   return this;
+  }
+
   public BaseCalendarEvent(BaseCalendarEvent calendarEvent) {
     this.mId = calendarEvent.getId();
     this.mColor = calendarEvent.getColor();
