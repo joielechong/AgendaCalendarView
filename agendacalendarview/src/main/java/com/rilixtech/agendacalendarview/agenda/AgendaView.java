@@ -36,7 +36,7 @@ public class AgendaView extends FrameLayout {
   public AgendaView(Context context, AttributeSet attrs) {
     super(context, attrs);
 
-    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    LayoutInflater inflater = LayoutInflater.from(context);
     inflater.inflate(R.layout.view_agenda, this, true);
   }
 

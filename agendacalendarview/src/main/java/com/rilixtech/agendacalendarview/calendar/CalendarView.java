@@ -68,7 +68,7 @@ public class CalendarView extends LinearLayout {
   public CalendarView(Context context, AttributeSet attrs) {
     super(context, attrs);
 
-    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    LayoutInflater inflater = LayoutInflater.from(context);
     inflater.inflate(R.layout.view_calendar, this, true);
 
     setOrientation(VERTICAL);

@@ -109,7 +109,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
         getResources().getColor(R.color.theme_light_primary));
     mFabColor = a.getColor(R.styleable.AgendaCalendarView_fabColor, getResources().getColor(R.color.theme_accent));
 
-    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    LayoutInflater inflater = LayoutInflater.from(context);
     inflater.inflate(R.layout.view_agendacalendar, this, true);
 
     setAlpha(0f);
