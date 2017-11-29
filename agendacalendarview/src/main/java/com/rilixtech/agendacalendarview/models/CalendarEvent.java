@@ -4,42 +4,41 @@ import java.util.Calendar;
 
 public interface CalendarEvent {
 
+  void setPlaceholder(boolean placeholder);
 
-    void setPlaceholder(boolean placeholder);
+  boolean isPlaceholder();
 
-    boolean isPlaceholder();
+  public String getLocation();
 
-    public String getLocation();
+  public void setLocation(String mLocation);
 
-    public void setLocation(String mLocation);
+  long getId();
 
-    long getId();
+  void setId(long mId);
 
-    void setId(long mId);
+  Calendar getStartTime();
 
-    Calendar getStartTime();
+  void setStartTime(Calendar mStartTime);
 
-    void setStartTime(Calendar mStartTime);
+  Calendar getEndTime();
 
-    Calendar getEndTime();
+  void setEndTime(Calendar mEndTime);
 
-    void setEndTime(Calendar mEndTime);
+  String getTitle();
 
-    String getTitle();
+  void setTitle(String mTitle);
 
-    void setTitle(String mTitle);
+  Calendar getInstanceDay();
 
-    Calendar getInstanceDay();
+  void setInstanceDay(Calendar mInstanceDay);
 
-    void setInstanceDay(Calendar mInstanceDay);
+  IDayItem getDayReference();
 
-    IDayItem getDayReference();
+  void setDayReference(IDayItem mDayReference);
 
-    void setDayReference(IDayItem mDayReference);
+  IWeekItem getWeekReference();
 
-    IWeekItem getWeekReference();
+  void setWeekReference(IWeekItem mWeekReference);
 
-    void setWeekReference(IWeekItem mWeekReference);
-
-    CalendarEvent copy();
+  CalendarEvent copy();
 }

@@ -1,4 +1,8 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.joielechong'
+version = '1.1.2'
+def versioncode = 112
 
 android {
   compileSdkVersion 26
@@ -13,8 +17,8 @@ android {
   defaultConfig {
     minSdkVersion 14
     targetSdkVersion 26
-    versionCode 111
-    versionName "1.1.1"
+    versionCode versioncode
+    versionName version
   }
   buildTypes {
     release {

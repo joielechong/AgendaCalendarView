@@ -94,25 +94,26 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
   public AgendaCalendarView(Context context, AttributeSet attrs) {
     super(context, attrs);
 
-    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorOptionsView, 0, 0);
-    mAgendaCurrentDayTextColor = a.getColor(R.styleable.ColorOptionsView_agendaCurrentDayTextColor,
+    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AgendaCalendarView, 0, 0);
+    mAgendaCurrentDayTextColor = a.getColor(R.styleable.AgendaCalendarView_agendaCurrentDayTextColor,
         getResources().getColor(R.color.theme_primary));
-    mCalendarHeaderColor = a.getColor(R.styleable.ColorOptionsView_calendarHeaderColor,
+    mCalendarHeaderColor = a.getColor(R.styleable.AgendaCalendarView_calendarHeaderColor,
         getResources().getColor(R.color.theme_light_primary));
     mCalendarBackgroundColor =
-        a.getColor(R.styleable.ColorOptionsView_calendarColor, getResources().getColor(R.color.theme_primary));
-    mCalendarDayTextColor = a.getColor(R.styleable.ColorOptionsView_calendarDayTextColor,
+        a.getColor(R.styleable.AgendaCalendarView_calendarColor, getResources().getColor(R.color.theme_primary));
+    mCalendarDayTextColor = a.getColor(R.styleable.AgendaCalendarView_calendarDayTextColor,
         getResources().getColor(R.color.theme_text_icons));
-    mCalendarCurrentDayColor = a.getColor(R.styleable.ColorOptionsView_calendarCurrentDayTextColor,
+    mCalendarCurrentDayColor = a.getColor(R.styleable.AgendaCalendarView_calendarCurrentDayTextColor,
         getResources().getColor(R.color.calendar_text_current_day));
-    mCalendarPastDayTextColor = a.getColor(R.styleable.ColorOptionsView_calendarPastDayTextColor,
+    mCalendarPastDayTextColor = a.getColor(R.styleable.AgendaCalendarView_calendarPastDayTextColor,
         getResources().getColor(R.color.theme_light_primary));
-    mFabColor = a.getColor(R.styleable.ColorOptionsView_fabColor, getResources().getColor(R.color.theme_accent));
+    mFabColor = a.getColor(R.styleable.AgendaCalendarView_fabColor, getResources().getColor(R.color.theme_accent));
 
     LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     inflater.inflate(R.layout.view_agendacalendar, this, true);
 
     setAlpha(0f);
+    a.recycle();
   }
 
   // endregion
@@ -141,7 +142,9 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
   }
 
   private void animateView() {
-    ObjectAnimator alphaAnimation = new ObjectAnimator().ofFloat(this, "alpha", getAlpha(), 1f).setDuration(500);
+    ObjectAnimator alphaAnimation = ObjectAnimator.ofFloat(this, "alpha", getAlpha(), 1f).setDuration(500);
+
+    //ObjectAnimator alphaAnimation = new ObjectAnimator().ofFloat(this, "alpha", getAlpha(), 1f).setDuration(500);
     alphaAnimation.addListener(new Animator.AnimatorListener() {
       @Override public void onAnimationStart(Animator animation) {
 

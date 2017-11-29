@@ -7,104 +7,95 @@ import java.util.List;
  * Week model class.
  */
 public class WeekItem implements IWeekItem {
-    private int mWeekInYear;
-    private int mYear;
-    private int mMonth;
-    private Date mDate;
-    private String mLabel;
-    private List<IDayItem> mDayItems;
+  private int mWeekInYear;
+  private int mYear;
+  private int mMonth;
+  private Date mDate;
+  private String mLabel;
+  private List<IDayItem> mDayItems;
 
-    // region Constructor
+  // region Constructor
 
-    public WeekItem(int weekInYear, int year, Date date, String label, int month) {
-        this.mWeekInYear = weekInYear;
-        this.mYear = year;
-        this.mDate = date;
-        this.mLabel = label;
-        this.mMonth = month;
-    }
-    public WeekItem(WeekItem original) {
-        this.mWeekInYear = original.getWeekInYear();
-        this.mYear = original.getYear();
-        this.mMonth = original.getMonth();
-        this.mDate = original.getDate();
-        this.mLabel = original.getLabel();
-        this.mDayItems = original.getDayItems();
-    }
+  public WeekItem(int weekInYear, int year, Date date, String label, int month) {
+    this.mWeekInYear = weekInYear;
+    this.mYear = year;
+    this.mDate = date;
+    this.mLabel = label;
+    this.mMonth = month;
+  }
 
-    public WeekItem(){
+  public WeekItem(WeekItem original) {
+    this.mWeekInYear = original.getWeekInYear();
+    this.mYear = original.getYear();
+    this.mMonth = original.getMonth();
+    this.mDate = original.getDate();
+    this.mLabel = original.getLabel();
+    this.mDayItems = original.getDayItems();
+  }
 
-    }
+  public WeekItem() {
 
-    // endregion
+  }
 
-    // region Getters/Setters
+  // endregion
 
-    public int getWeekInYear() {
-        return mWeekInYear;
-    }
+  // region Getters/Setters
 
-    public void setWeekInYear(int weekInYear) {
-        this.mWeekInYear = weekInYear;
-    }
+  public int getWeekInYear() {
+    return mWeekInYear;
+  }
 
-    public int getYear() {
-        return mYear;
-    }
+  public void setWeekInYear(int weekInYear) {
+    this.mWeekInYear = weekInYear;
+  }
 
-    public void setYear(int year) {
-        this.mYear = year;
-    }
+  public int getYear() {
+    return mYear;
+  }
 
-    public int getMonth() {
-        return mMonth;
-    }
+  public void setYear(int year) {
+    this.mYear = year;
+  }
 
-    public void setMonth(int month) {
-        this.mMonth = month;
-    }
+  public int getMonth() {
+    return mMonth;
+  }
 
-    public Date getDate() {
-        return mDate;
-    }
+  public void setMonth(int month) {
+    this.mMonth = month;
+  }
 
-    public void setDate(Date date) {
-        this.mDate = date;
-    }
+  public Date getDate() {
+    return mDate;
+  }
 
-    public String getLabel() {
-        return mLabel;
-    }
+  public void setDate(Date date) {
+    this.mDate = date;
+  }
 
-    public void setLabel(String label) {
-        this.mLabel = label;
-    }
+  public String getLabel() {
+    return mLabel;
+  }
 
-    public List<IDayItem> getDayItems() {
-        return mDayItems;
-    }
+  public void setLabel(String label) {
+    this.mLabel = label;
+  }
 
-    public void setDayItems(List<IDayItem> dayItems) {
-        this.mDayItems = dayItems;
-    }
+  public List<IDayItem> getDayItems() {
+    return mDayItems;
+  }
 
-    @Override
-    public IWeekItem copy() {
-        return new WeekItem(this);
-    }
+  public void setDayItems(List<IDayItem> dayItems) {
+    this.mDayItems = dayItems;
+  }
 
-    // endregion
+  @Override public IWeekItem copy() {
+    return new WeekItem(this);
+  }
 
-    @Override
-    public String toString() {
-        return "WeekItem{"
-                + "label='"
-                + mLabel
-                + '\''
-                + ", weekInYear="
-                + mWeekInYear
-                + ", year="
-                + mYear
-                + '}';
-    }
+  // endregion
+
+  @Override public String toString() {
+    return "WeekItem{" + "label='" + mLabel + '\'' + ", weekInYear=" + mWeekInYear + ", year=" + mYear + '}';
+  }
 }

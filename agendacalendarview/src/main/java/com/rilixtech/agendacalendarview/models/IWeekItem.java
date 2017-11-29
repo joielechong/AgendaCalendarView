@@ -5,30 +5,29 @@ import java.util.List;
 
 public interface IWeekItem {
 
+  int getWeekInYear();
 
-    int getWeekInYear();
+  void setWeekInYear(int weekInYear);
 
-    void setWeekInYear(int weekInYear);
+  int getYear();
 
-    int getYear();
+  void setYear(int year);
 
-    void setYear(int year);
+  int getMonth();
 
-    int getMonth();
+  void setMonth(int month);
 
-    void setMonth(int month);
+  Date getDate();
 
-    Date getDate();
+  void setDate(Date date);
 
-    void setDate(Date date);
+  String getLabel();
 
-    String getLabel();
+  void setLabel(String label);
 
-    void setLabel(String label);
+  List<IDayItem> getDayItems();
 
-    List<IDayItem> getDayItems();
+  void setDayItems(List<IDayItem> dayItems);
 
-    void setDayItems(List<IDayItem> dayItems);
-
-    IWeekItem copy();
+  IWeekItem copy();
 }

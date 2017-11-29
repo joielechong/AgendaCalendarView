@@ -11,100 +11,95 @@ import android.view.animation.Interpolator;
  * Floating action button helping to scroll back to the current date.
  */
 public class FloatingActionButton extends android.support.design.widget.FloatingActionButton {
-    private static final int TRANSLATE_DURATION_MILLIS = 200;
+  private static final int TRANSLATE_DURATION_MILLIS = 200;
 
-    private boolean mVisible = true;
+  private boolean mVisible = true;
 
-    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
+  private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
-    // region Constructors
+  // region Constructors
 
-    public FloatingActionButton(Context context) {
-        super(context);
-    }
+  public FloatingActionButton(Context context) {
+    super(context);
+  }
 
-    public FloatingActionButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+  public FloatingActionButton(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
 
-    public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
+  public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+  }
 
-    // endregion
+  // endregion
 
-    // region Overrides
+  // region Overrides
 
-    @Override
-    public void show() {
-        show(true);
-    }
+  @Override public void show() {
+    show(true);
+  }
 
-    @Override
-    public void hide() {
-        hide(true);
-    }
+  @Override public void hide() {
+    hide(true);
+  }
 
-    // endregion
+  // endregion
 
-    // region Public methods
+  // region Public methods
 
-    public void show(boolean animate) {
-        toggle(true, animate, false);
-    }
+  public void show(boolean animate) {
+    toggle(true, animate, false);
+  }
 
-    public void hide(boolean animate) {
-        toggle(false, animate, false);
-    }
+  public void hide(boolean animate) {
+    toggle(false, animate, false);
+  }
 
-    public boolean isVisible() {
-        return mVisible;
-    }
+  public boolean isVisible() {
+    return mVisible;
+  }
 
-    // endregion
+  // endregion
 
-    // region Private methods
+  // region Private methods
 
-    private void toggle(final boolean visible, final boolean animate, boolean force) {
-        if (mVisible != visible || force) {
-            mVisible = visible;
-            int height = getHeight();
-            if (height == 0 && !force) {
-                ViewTreeObserver vto = getViewTreeObserver();
-                if (vto.isAlive()) {
-                    vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                        @Override
-                        public boolean onPreDraw() {
-                            ViewTreeObserver currentVto = getViewTreeObserver();
-                            if (currentVto.isAlive()) {
-                                currentVto.removeOnPreDrawListener(this);
-                            }
-                            toggle(visible, animate, true);
-                            return true;
-                        }
-                    });
-                    return;
-                }
+  private void toggle(final boolean visible, final boolean animate, boolean force) {
+    if (mVisible != visible || force) {
+      mVisible = visible;
+      int height = getHeight();
+      if (height == 0 && !force) {
+        ViewTreeObserver vto = getViewTreeObserver();
+        if (vto.isAlive()) {
+          vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override public boolean onPreDraw() {
+              ViewTreeObserver currentVto = getViewTreeObserver();
+              if (currentVto.isAlive()) {
+                currentVto.removeOnPreDrawListener(this);
+              }
+              toggle(visible, animate, true);
+              return true;
             }
-            int translationY = visible ? 0 : height + getMarginBottom();
-            if (animate) {
-                animate().setInterpolator(mInterpolator)
-                        .setDuration(TRANSLATE_DURATION_MILLIS)
-                        .translationY(translationY);
-            } else {
-                setTranslationY(translationY);
-            }
+          });
+          return;
         }
+      }
+      int translationY = visible ? 0 : height + getMarginBottom();
+      if (animate) {
+        animate().setInterpolator(mInterpolator).setDuration(TRANSLATE_DURATION_MILLIS).translationY(translationY);
+      } else {
+        setTranslationY(translationY);
+      }
     }
+  }
 
-    private int getMarginBottom() {
-        int marginBottom = 0;
-        final ViewGroup.LayoutParams layoutParams = getLayoutParams();
-        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
-            marginBottom = ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
-        }
-        return marginBottom;
+  private int getMarginBottom() {
+    int marginBottom = 0;
+    final ViewGroup.LayoutParams layoutParams = getLayoutParams();
+    if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+      marginBottom = ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
     }
+    return marginBottom;
+  }
 
-    // endregion
+  // endregion
 }

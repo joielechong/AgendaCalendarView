@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ColorOptionsView">
+    <declare-styleable name="AgendaCalendarView">
         <attr name="agendaCurrentDayTextColor" format="color" />
         <attr name="calendarHeaderColor" format="color" />
         <attr name="calendarColor" format="color" />

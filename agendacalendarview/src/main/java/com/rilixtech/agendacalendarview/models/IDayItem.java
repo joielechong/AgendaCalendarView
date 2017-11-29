@@ -5,42 +5,41 @@ import java.util.Date;
 
 public interface IDayItem {
 
-    // region Getters/Setters
+  // region Getters/Setters
 
-    Date getDate();
+  Date getDate();
 
-    void setDate(Date date);
+  void setDate(Date date);
 
-    int getValue();
+  int getValue();
 
-    void setValue(int value);
+  void setValue(int value);
 
-    boolean isToday();
+  boolean isToday();
 
-    void setToday(boolean today);
+  void setToday(boolean today);
 
-    boolean isSelected();
+  boolean isSelected();
 
-    void setSelected(boolean selected);
+  void setSelected(boolean selected);
 
-    boolean isFirstDayOfTheMonth();
+  boolean isFirstDayOfTheMonth();
 
-    void setFirstDayOfTheMonth(boolean firstDayOfTheMonth);
+  void setFirstDayOfTheMonth(boolean firstDayOfTheMonth);
 
-    String getMonth();
+  String getMonth();
 
-    void setMonth(String month);
+  void setMonth(String month);
 
-    int getDayOftheWeek();
+  int getDayOftheWeek();
 
-    void setDayOftheWeek(int mDayOftheWeek);
+  void setDayOftheWeek(int mDayOftheWeek);
 
-    // endregion
+  // endregion
 
-    void buildDayItemFromCal(Calendar calendar);
+  void buildDayItemFromCal(Calendar calendar);
 
-    String toString();
+  String toString();
 
-    IDayItem copy();
-
+  IDayItem copy();
 }
