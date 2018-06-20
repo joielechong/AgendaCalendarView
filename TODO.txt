@@ -1,4 +1,6 @@
- 1. Add reminder 
+Restore previous view when rotate.
+
+ 1. Add reminder
  the event details should be added to the calendar with the reminder. 
  
  2. Scroll calendar based on Calendar instance
