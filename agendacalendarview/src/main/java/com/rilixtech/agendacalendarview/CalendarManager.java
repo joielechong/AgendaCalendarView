@@ -4,6 +4,7 @@ import com.rilixtech.agendacalendarview.models.CalendarEvent;
 import com.rilixtech.agendacalendarview.models.DayItem;
 import com.rilixtech.agendacalendarview.models.IDayItem;
 import com.rilixtech.agendacalendarview.models.IWeekItem;
+import com.rilixtech.agendacalendarview.models.WeekItem;
 import com.rilixtech.agendacalendarview.utils.DateHelper;
 
 import android.content.Context;
@@ -23,7 +24,7 @@ import java.util.Locale;
  */
 public class CalendarManager {
 
-  private static final String LOG_TAG = CalendarManager.class.getSimpleName();
+  private static final String TAG = CalendarManager.class.getSimpleName();
 
   private static CalendarManager mInstance;
 
@@ -34,8 +35,8 @@ public class CalendarManager {
   private SimpleDateFormat mMonthHalfNameFormat;
 
   /// instances of classes provided from outside
-  private IDayItem mCleanDay;
-  private IWeekItem mCleanWeek;
+  //private IDayItem mCleanDay;
+  //private IWeekItem mCleanWeek;
 
   /**
    * List of days used by the calendar
@@ -107,11 +108,7 @@ public class CalendarManager {
     return mMonthHalfNameFormat;
   }
 
-  // endregion
-
-  // region Public methods
-
-  public void buildCal(Calendar minDate, Calendar maxDate, Locale locale, IDayItem cleanDay, IWeekItem cleanWeek) {
+  public void buildCal(Calendar minDate, Calendar maxDate, Locale locale) {
     if (minDate == null || maxDate == null) {
       throw new IllegalArgumentException("minDate and maxDate must be non-null.");
     }
@@ -128,8 +125,8 @@ public class CalendarManager {
     mWeeks.clear();
     mEvents.clear();
 
-    mCleanDay = cleanDay;
-    mCleanWeek = cleanWeek;
+    //mCleanDay = cleanDay;
+    //mCleanWeek = cleanWeek;
 
     Calendar mMinCal = Calendar.getInstance(mLocale);
     Calendar mMaxCal = Calendar.getInstance(mLocale);
@@ -150,6 +147,7 @@ public class CalendarManager {
     int currentMonth = mWeekCounter.get(Calendar.MONTH);
     int currentYear = mWeekCounter.get(Calendar.YEAR);
 
+    IWeekItem cleanWeek = new WeekItem();
     // Loop through the weeks
     while ((currentMonth <= maxMonth // Up to, including the month.
         || currentYear < maxYear) // Up to the year.
@@ -169,7 +167,7 @@ public class CalendarManager {
       weekItem.setDayItems(dayItems);
       mWeeks.add(weekItem);
 
-      Log.d(LOG_TAG, String.format("Adding week: %s", weekItem));
+      Log.d(TAG, String.format("Adding week: %s", weekItem));
 
       mWeekCounter.add(Calendar.WEEK_OF_YEAR, 1);
 
@@ -240,9 +238,10 @@ public class CalendarManager {
     }
     mCalendar.add(Calendar.DATE, offset);
 
-    Log.d(LOG_TAG, String.format("Buiding row week starting at %s", mCalendar.getTime()));
+    IDayItem cleanDay = new DayItem();
+    Log.d(TAG, String.format("Buiding row week starting at %s", mCalendar.getTime()));
     for (int c = 0; c < 7; c++) {
-      IDayItem dayItem = mCleanDay.copy();
+      IDayItem dayItem = cleanDay.copy();
       dayItem.buildDayItemFromCal(mCalendar);
       //dayItem.setEventTotal(eventPerDay(dayItem));
       dayItems.add(dayItem);
@@ -255,8 +254,8 @@ public class CalendarManager {
 
   ////TODO: This is still Error!!!
   //private int eventPerDay(IDayItem dayItem) {
-  //  Log.d(LOG_TAG, "eventPerDay called");
-  //  Log.d(LOG_TAG, "mEvents.size() = " + mEvents.size());
+  //  Log.d(TAG, "eventPerDay called");
+  //  Log.d(TAG, "mEvents.size() = " + mEvents.size());
   //  int total = 0;
   //  for (int i = 0; i < mEvents.size(); i++) {
   //    Log.d("CalendarManager", mEvents.get(i).getTitle());
@@ -266,7 +265,7 @@ public class CalendarManager {
   //      total++;
   //    }
   //  }
-  //  Log.d(LOG_TAG, "eventPerDay terminated");
+  //  Log.d(TAG, "eventPerDay terminated");
   //  return total;
   //}
 

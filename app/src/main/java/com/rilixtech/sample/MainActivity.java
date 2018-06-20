@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
 
     //////// This can be done once in another thread
     CalendarManager calendarManager = CalendarManager.getInstance(getApplicationContext());
-    calendarManager.buildCal(minDate, maxDate, Locale.getDefault(), new DayItem(), new WeekItem());
+    calendarManager.buildCal(minDate, maxDate, Locale.getDefault());
     calendarManager.loadEvents(eventList, new BaseCalendarEvent());
     ////////
 

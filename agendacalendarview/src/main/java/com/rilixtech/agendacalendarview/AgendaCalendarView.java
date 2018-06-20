@@ -51,7 +51,7 @@ public class AgendaCalendarView extends FrameLayout
 
   private CalendarView mCalendarView;
   private AgendaView mAgendaView;
-  private FloatingActionButton mFloatingActionButton;
+  private FloatingActionButton mFabDirection;
 
   private int mAgendaCurrentDayTextColor;
   private int mCalendarHeaderColor;
@@ -62,10 +62,10 @@ public class AgendaCalendarView extends FrameLayout
   private int mFabColor;
   private CalendarPickerController mCalendarPickerController;
 
-  private ListViewScrollTracker mAgendaListViewScrollTracker;
+  private ListViewScrollTracker mAlvScrollTracker;
   private AbsListView.OnScrollListener mAgendaScrollListener = new AbsListView.OnScrollListener() {
-    int mCurrentAngle;
-    int mMaxAngle = 85;
+    private int mCurrentAngle;
+    private int mMaxAngle = 85;
 
     @Override public void onScrollStateChanged(AbsListView view, int scrollState) {
 
@@ -73,11 +73,9 @@ public class AgendaCalendarView extends FrameLayout
 
     @Override public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
         int totalItemCount) {
-      int scrollY =
-          mAgendaListViewScrollTracker.calculateScrollY(firstVisibleItem, visibleItemCount);
-      if (scrollY != 0) {
-        mFloatingActionButton.show();
-      }
+      int scrollY = mAlvScrollTracker.calculateScrollY(firstVisibleItem, visibleItemCount);
+      if (scrollY != 0) mFabDirection.show();
+
       Log.d(LOG_TAG, String.format("Agenda listView scrollY: %d", scrollY));
       int toAngle = scrollY / 100;
       if (toAngle > mMaxAngle) {
@@ -86,15 +84,12 @@ public class AgendaCalendarView extends FrameLayout
         toAngle = -mMaxAngle;
       }
       RotateAnimation rotate =
-          new RotateAnimation(mCurrentAngle, toAngle, mFloatingActionButton.getWidth() / 2,
-              mFloatingActionButton.getHeight() / 2);
+          new RotateAnimation(mCurrentAngle, toAngle, mFabDirection.getWidth() / 2, mFabDirection.getHeight() / 2);
       rotate.setFillAfter(true);
       mCurrentAngle = toAngle;
-      mFloatingActionButton.startAnimation(rotate);
+      mFabDirection.startAnimation(rotate);
     }
   };
-
-  // region Constructors
 
   public AgendaCalendarView(Context context) {
     super(context);
@@ -128,17 +123,13 @@ public class AgendaCalendarView extends FrameLayout
     a.recycle();
   }
 
-  // endregion
-
-  // region Class - View
-
   @Override protected void onFinishInflate() {
     super.onFinishInflate();
     mCalendarView = findViewById(R.id.calendar_view);
     mAgendaView = findViewById(R.id.agenda_view);
-    mFloatingActionButton = findViewById(R.id.floating_action_button);
+    mFabDirection = findViewById(R.id.floating_action_button);
     ColorStateList csl = new ColorStateList(new int[][] { new int[0] }, new int[] { mFabColor });
-    mFloatingActionButton.setBackgroundTintList(csl);
+    mFabDirection.setBackgroundTintList(csl);
 
     mCalendarView.findViewById(R.id.cal_day_names).setBackgroundColor(mCalendarHeaderColor);
     mCalendarView.findViewById(R.id.list_week).setBackgroundColor(mCalendarBackgroundColor);
@@ -168,14 +159,14 @@ public class AgendaCalendarView extends FrameLayout
         // Just after setting the alpha from this view to 1, we hide the fab.
         // It will reappear as soon as the user is scrolling the Agenda view.
         new Handler().postDelayed(() -> {
-          mFloatingActionButton.hide();
-          mAgendaListViewScrollTracker = new ListViewScrollTracker(mAgendaView.getAgendaListView());
+          mFabDirection.hide();
+          mAlvScrollTracker = new ListViewScrollTracker(mAgendaView.getAgendaListView());
           mAgendaView.getAgendaListView().setOnScrollListener(mAgendaScrollListener);
-          mFloatingActionButton.setOnClickListener((v) -> {
+          mFabDirection.setOnClickListener((v) -> {
             mAgendaView.translateList(0);
             mAgendaView.getAgendaListView()
                 .scrollToCurrentDate(CalendarManager.getInstance().getToday());
-            new Handler().postDelayed(() -> mFloatingActionButton.hide(), fabAnimationDelay);
+            new Handler().postDelayed(() -> mFabDirection.hide(), fabAnimationDelay);
           });
         }, fabAnimationDelay);
       }
@@ -193,10 +184,6 @@ public class AgendaCalendarView extends FrameLayout
     EventBus.getDefault().post(new FetchedEvent());
   }
 
-  // endregion
-
-  // region Interface - StickyListHeadersListView.OnStickyHeaderChangedListener
-
   @Override public void onStickyHeaderChanged(StickyListHeadersListView stickyListHeadersListView,
       View header, int position, long headerId) {
     Log.d(LOG_TAG,
@@ -211,16 +198,11 @@ public class AgendaCalendarView extends FrameLayout
     }
   }
 
-  // endregion
-
-  // region Public methods
-
   public void init(List<CalendarEvent> eventList, Calendar minDate, Calendar maxDate, Locale locale,
       CalendarPickerController calendarPickerController) {
     mCalendarPickerController = calendarPickerController;
 
-    CalendarManager.getInstance(getContext())
-        .buildCal(minDate, maxDate, locale, new DayItem(), new WeekItem());
+    CalendarManager.getInstance(getContext()).buildCal(minDate, maxDate, locale);
 
     // Feed our views with weeks list and events
     mCalendarView.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor,
@@ -239,11 +221,11 @@ public class AgendaCalendarView extends FrameLayout
     addEventRenderer(new DefaultEventRenderer());
   }
 
-  public void init(Locale locale, List<IWeekItem> lWeeks, List<IDayItem> lDays,
-      List<CalendarEvent> lEvents, CalendarPickerController calendarPickerController) {
-    mCalendarPickerController = calendarPickerController;
+  public void init(Locale locale, List<IWeekItem> weekItems, List<IDayItem> iDayItems,
+      List<CalendarEvent> events, CalendarPickerController pickerController) {
+    mCalendarPickerController = pickerController;
 
-    CalendarManager.getInstance(getContext()).loadCal(locale, lWeeks, lDays, lEvents);
+    CalendarManager.getInstance(getContext()).loadCal(locale, weekItems, iDayItems, events);
 
     // Feed our views with weeks list and events
     mCalendarView.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor,
@@ -276,7 +258,7 @@ public class AgendaCalendarView extends FrameLayout
   }
 
   public void enableFloatingIndicator(boolean enable) {
-    mFloatingActionButton.setVisibility(enable ? VISIBLE : GONE);
+    mFabDirection.setVisibility(enable ? VISIBLE : GONE);
   }
 
   @Override protected void onAttachedToWindow() {
