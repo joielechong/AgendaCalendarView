@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import java.util.Calendar;
 import java.util.List;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+import com.rilixtech.stickylistheaders.StickyListHeadersListView;
 
 /**
  * StickyListHeadersListView to scroll chronologically through events.

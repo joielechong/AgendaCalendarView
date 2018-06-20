@@ -4,7 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
+    <com.rilixtech.stickylistheaders.ExpandableStickyListHeadersListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

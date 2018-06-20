@@ -48,6 +48,6 @@ dependencies {
   // other libraries
 //  compile 'se.emilsjolander:stickylistheaders:2.7.0'
 
-  api project(path: ':stickylistheaderslibrary')
+  api project(path: ':stickylistheaders')
   compile 'org.greenrobot:eventbus:3.1.1'
 }

@@ -18,7 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+import com.rilixtech.stickylistheaders.StickyListHeadersListView;
 
 /**
  * @author Emil Sjölander

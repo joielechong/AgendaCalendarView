@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import com.rilixtech.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Adapter for the agenda, implements StickyListHeadersAdapter.

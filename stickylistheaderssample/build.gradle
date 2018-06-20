@@ -23,7 +23,7 @@ android {
 
 dependencies {
 
-  implementation project(path: ':stickylistheaderslibrary')
+  implementation project(path: ':stickylistheaders')
   implementation 'com.android.support:appcompat-v7:27.1.1'
   implementation 'com.android.support:support-v4:27.1.1'
   implementation 'com.nineoldandroids:library:2.4.0'

@@ -39,7 +39,7 @@ import java.util.Locale;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+import com.rilixtech.stickylistheaders.StickyListHeadersListView;
 
 /**
  * View holding the agenda and calendar view together.

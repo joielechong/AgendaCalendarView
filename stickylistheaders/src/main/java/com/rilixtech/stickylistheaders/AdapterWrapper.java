@@ -1,4 +1,4 @@
-package se.emilsjolander.stickylistheaders;
+package com.rilixtech.stickylistheaders;
 
 import java.util.LinkedList;
 import java.util.List;

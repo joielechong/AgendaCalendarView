@@ -1,1 +1,1 @@
-include ':app', ':agendacalendarview', ':stickylistheaderslibrary', ':stickylistheaderssample'
+include ':app', ':agendacalendarview', ':stickylistheaders', ':stickylistheaderssample'

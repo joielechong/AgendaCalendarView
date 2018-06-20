@@ -1,4 +1,4 @@
-package se.emilsjolander.stickylistheaders;
+package com.rilixtech.stickylistheaders;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -25,7 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 
-import se.emilsjolander.stickylistheaders.WrapperViewList.LifeCycleListener;
+import com.rilixtech.stickylistheaders.WrapperViewList.LifeCycleListener;
 
 /**
  * Even though this is a FrameLayout subclass we still consider it a ListView.

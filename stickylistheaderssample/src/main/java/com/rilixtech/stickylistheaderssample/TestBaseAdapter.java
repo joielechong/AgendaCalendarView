@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import com.rilixtech.stickylistheaders.StickyListHeadersAdapter;
 
 public class TestBaseAdapter extends BaseAdapter implements
         StickyListHeadersAdapter, SectionIndexer {
