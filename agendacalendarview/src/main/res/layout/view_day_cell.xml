@@ -15,14 +15,6 @@
       style="@style/CalendarCellText"
       />
 
-  <!---->
-  <!--<FrameLayout-->
-  <!--android:layout_below="@+id/view_day_month_label"-->
-  <!--android:layout_width="wrap_content"-->
-  <!--android:layout_height="wrap_content"-->
-  <!--android:layout_centerHorizontal="true"-->
-  <!--&gt;-->
-
   <View
       android:id="@+id/view_day_circle_selected"
       android:layout_width="@dimen/circle_selected_size"
@@ -52,25 +44,5 @@
       app:indicatorAmount="3"
       android:layout_below="@+id/view_day_day_label"
       />
-
-  <!--<LinearLayout-->
-      <!--android:layout_width="wrap_content"-->
-      <!--android:layout_height="wrap_content"-->
-      <!--android:layout_below="@+id/view_day_day_label"-->
-      <!--android:layout_marginTop="-12dp"-->
-      <!--android:orientation="horizontal"-->
-      <!--&gt;-->
-
-    <!--<com.rilixtech.agendacalendarview.widgets.CircleView-->
-        <!--android:id="@+id/s1"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--/>-->
-    <!--<com.rilixtech.agendacalendarview.widgets.CircleView-->
-        <!--android:id="@+id/s2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--/>-->
-  <!--</LinearLayout>-->
 
 </RelativeLayout>

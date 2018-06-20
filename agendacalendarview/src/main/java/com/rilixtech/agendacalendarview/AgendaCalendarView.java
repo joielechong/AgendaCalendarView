@@ -7,6 +7,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -95,7 +96,7 @@ public class AgendaCalendarView extends FrameLayout
     TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AgendaCalendarView, 0, 0);
 
     int defAgendaCurrentDayTextColor = getResources().getColor(R.color.theme_primary);
-    int defBackgroundColor = defAgendaCurrentDayTextColor;
+    //int defBackgroundColor = defAgendaCurrentDayTextColor;
     int defFabColor = getResources().getColor(R.color.theme_accent);
     int defHeaderColor = getResources().getColor(R.color.theme_light_primary);
     int defDayTextColor = getResources().getColor(R.color.theme_text_icons);
@@ -104,24 +105,25 @@ public class AgendaCalendarView extends FrameLayout
 
     mAgendaCurrentDayTextColor = a.getColor(R.styleable.AgendaCalendarView_agendaCurrentDayTextColor, defAgendaCurrentDayTextColor);
     mCalendarHeaderColor = a.getColor(R.styleable.AgendaCalendarView_calendarHeaderColor, defHeaderColor);
-    mCalendarBackgroundColor = a.getColor(R.styleable.AgendaCalendarView_calendarColor, defBackgroundColor);
+    mCalendarBackgroundColor = a.getColor(R.styleable.AgendaCalendarView_calendarColor, defAgendaCurrentDayTextColor);
     mCalendarDayTextColor = a.getColor(R.styleable.AgendaCalendarView_calendarDayTextColor, defDayTextColor);
     mCalendarCurrentDayColor = a.getColor(R.styleable.AgendaCalendarView_calendarCurrentDayTextColor, defCalCurrentDayColor);
     mCalendarPastDayTextColor = a.getColor(R.styleable.AgendaCalendarView_calendarPastDayTextColor, defPastDayTextColor);
     mFabColor = a.getColor(R.styleable.AgendaCalendarView_fabColor, defFabColor);
 
-    LayoutInflater inflater = LayoutInflater.from(context);
-    inflater.inflate(R.layout.view_agendacalendar, this, true);
-
     setAlpha(0f);
     a.recycle();
+
+    inflateCalendarView();
   }
 
-  @Override protected void onFinishInflate() {
-    super.onFinishInflate();
-    mCalendarView = findViewById(R.id.calendar_view);
-    mAgendaView = findViewById(R.id.agenda_view);
-    mFabDirection = findViewById(R.id.floating_action_button);
+  private void inflateCalendarView() {
+    LayoutInflater inflater = LayoutInflater.from(getContext());
+    inflater.inflate(R.layout.view_agendacalendar, this, true);
+
+    mCalendarView = (CalendarView) getChildAt(0);
+    mAgendaView = (AgendaView) getChildAt(1);
+    mFabDirection = (FloatingActionButton) getChildAt(2);
     ColorStateList csl = new ColorStateList(new int[][] { new int[0] }, new int[] { mFabColor });
     mFabDirection.setBackgroundTintList(csl);
 
@@ -192,14 +194,14 @@ public class AgendaCalendarView extends FrameLayout
     }
   }
 
-  public void build(List<CalendarEvent> eventList, Calendar minDate, Calendar maxDate, Locale locale,
+  private void init(List<CalendarEvent> eventList, Calendar minDate, Calendar maxDate, Locale locale,
       CalendarPickerController calendarPickerController) {
     mCalendarPickerController = calendarPickerController;
 
     CalendarManager.getInstance().buildCal(minDate, maxDate, locale);
 
     // Feed our views with weeks list and events
-    mCalendarView.init(CalendarManager.getInstance(), mCalendarDayTextColor,
+    mCalendarView.init(mCalendarDayTextColor,
         mCalendarCurrentDayColor, mCalendarPastDayTextColor);
 
     // Load agenda events and scroll to current day
@@ -211,36 +213,81 @@ public class AgendaCalendarView extends FrameLayout
     animateView();
     Log.d(LOG_TAG, "CalendarEventTask finished");
 
-    // add default event renderer
     addEventRenderer(new DefaultEventRenderer());
   }
 
-  private CalendarManager initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> eventList, Locale locale) {
+  private void initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> events, Locale locale) {
     CalendarManager calendarManager = CalendarManager.initInstance(getContext());
     calendarManager.buildCal(minDate, maxDate, locale);
-    calendarManager.loadEvents(eventList, new BaseCalendarEvent());
-
-    return calendarManager;
+    calendarManager.loadEvents(events, new BaseCalendarEvent());
   }
 
-  public void build(Calendar minDate, Calendar maxDate, List<CalendarEvent> eventList, Locale locale, CalendarPickerController pickerController) {
+  private void initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> events) {
+    CalendarManager calendarManager = CalendarManager.initInstance(getContext());
+    calendarManager.buildCal(minDate, maxDate, Locale.getDefault());
+    calendarManager.loadEvents(events, new BaseCalendarEvent());
+  }
+
+  private Calendar minimumDate = null;
+  private Calendar maximumDate = null;
+  private Locale locale = null;
+  private List<CalendarEvent> events = null;
+  public AgendaCalendarView setMinimumDate(@NonNull Calendar minimumDate) {
+    this.minimumDate = minimumDate;
+    return this;
+  }
+
+  public AgendaCalendarView setMaximumDate(@NonNull Calendar maximumDate) {
+    this.maximumDate = maximumDate;
+    return this;
+  }
+
+  public AgendaCalendarView setCalendarEvents(@NonNull List<CalendarEvent> events) {
+    this.events = events;
+    return this;
+  }
+
+  public AgendaCalendarView setLocale(@Nullable Locale locale) {
+    this.locale = locale;
+    return this;
+  }
+
+  public AgendaCalendarView setCalendarPickerController(CalendarPickerController controller) {
+    mCalendarPickerController = controller;
+    return this;
+  }
+
+  public void build() {
+    if(minimumDate == null) throw new RuntimeException("Please set minimumDate");
+    if(maximumDate == null) throw new RuntimeException("Please set maximumDate");
+    if(events == null) throw new RuntimeException("Please set events");
+    if(mCalendarPickerController == null) throw new RuntimeException("Please set CalendarPickerController");
+
+    init(minimumDate, maximumDate, events, locale, mCalendarPickerController);
+  }
+
+  private void init(Calendar minDate, Calendar maxDate, List<CalendarEvent> eventList, Locale locale, CalendarPickerController pickerController) {
     mCalendarPickerController = pickerController;
 
-    CalendarManager calendarManager = initCalendarManager(minDate, maxDate, eventList, locale);
+    // init
+    if(locale == null) {
+      initCalendarManager(minDate, maxDate, eventList);
+    } else {
+      initCalendarManager(minDate, maxDate, eventList, locale);
+    }
 
     //CalendarManager.getInstance().loadCal(locale, weekItems, iDayItems, events);
 
     // Feed our views with weeks list and events
-    mCalendarView.init(calendarManager, mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor);
+    mCalendarView.init(mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor);
 
     // Load agenda events and scroll to current day
     AgendaAdapter agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor);
     mAgendaView.getAgendaListView().setAdapter(agendaAdapter);
     mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
 
-    // notify that actually everything is loaded
-    //BusProvider.getInstance().send(new Events.EventsFetched());
     animateView();
+    // notify that actually everything is loaded
     EventBus.getDefault().post(new FetchedEvent());
     Log.d(LOG_TAG, "CalendarEventTask finished");
 
@@ -276,6 +323,4 @@ public class AgendaCalendarView extends FrameLayout
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(DayClickedEvent event) {
     mCalendarPickerController.onDaySelected(event.getDay());
   }
-
-  // endregion
 }

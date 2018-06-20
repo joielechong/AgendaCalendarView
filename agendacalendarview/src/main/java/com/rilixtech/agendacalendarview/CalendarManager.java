@@ -118,7 +118,7 @@ public class CalendarManager {
     // we don't include that month in our list
     maxDate.add(Calendar.MINUTE, -1);
 
-    // Now we iterate between minDate and maxDate so we build our list of weeks
+    // Now we iterate between minDate and maxDate so we init our list of weeks
     int maxMonth = maxDate.get(Calendar.MONTH);
     int maxYear = maxDate.get(Calendar.YEAR);
 

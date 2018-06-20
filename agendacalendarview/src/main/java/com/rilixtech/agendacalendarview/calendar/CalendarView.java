@@ -59,8 +59,6 @@ public class CalendarView extends LinearLayout {
    */
   private int mCurrentListPosition;
 
-  // region Constructors
-
   public CalendarView(Context context) {
     super(context);
   }
@@ -74,8 +72,6 @@ public class CalendarView extends LinearLayout {
     setOrientation(VERTICAL);
   }
 
-  // endregion
-
   public IDayItem getSelectedDay() {
     return mSelectedDay;
   }
@@ -87,8 +83,6 @@ public class CalendarView extends LinearLayout {
   public WeekListView getListViewWeeks() {
     return mListViewWeeks;
   }
-
-  // region Class - View
 
   @Override protected void onFinishInflate() {
     super.onFinishInflate();
@@ -116,12 +110,8 @@ public class CalendarView extends LinearLayout {
     EventBus.getDefault().register(this);
   }
 
-  // endregion
-
-  // region Public methods
-
-  public void init(CalendarManager calendarManager, int dayTextColor, int currentDayTextColor,
-      int pastDayTextColor) {
+  public void init(int dayTextColor, int currentDayTextColor, int pastDayTextColor) {
+    CalendarManager calendarManager = CalendarManager.getInstance();
     Calendar today = calendarManager.getToday();
     Locale locale = calendarManager.getLocale();
     SimpleDateFormat weekDayFormatter = calendarManager.getWeekdayFormatter();

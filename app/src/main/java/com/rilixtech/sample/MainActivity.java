@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
     mockList(eventList);
     // Sync way
         /*
-        mAgendaCalendarView.build(eventList, minDate, maxDate, Locale.getDefault(), this);
+        mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), this);
         mAgendaCalendarView.addEventRenderer(new DrawableEventRenderer());
         */
     //Async way
@@ -60,9 +60,17 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
     //List<CalendarEvent> readyEvents = calendarManager.getEvents();
     //List<IDayItem> readyDays = calendarManager.getDays();
     //List<IWeekItem> readyWeeks = calendarManager.getWeeks();
-    //mAgendaCalendarView.build(Locale.getDefault(), readyWeeks, readyDays, readyEvents, this);
+    //mAgendaCalendarView.init(Locale.getDefault(), readyWeeks, readyDays, readyEvents, this);
 
-    mAgendaCalendarView.build(minDate, maxDate, eventList, Locale.getDefault(), this);
+    //mAgendaCalendarView.init(minDate, maxDate, eventList, Locale.getDefault(), this);
+
+    mAgendaCalendarView.setMinimumDate(minDate)
+        .setMaximumDate(maxDate)
+        .setCalendarEvents(eventList)
+        .setLocale(Locale.getDefault())
+        .setCalendarPickerController(this)
+        .build();
+
     mAgendaCalendarView.addEventRenderer(new DrawableEventRenderer());
     //mAgendaCalendarView.enableCalenderView(true);
   }
@@ -78,8 +86,9 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
   @Override public void onScrollToDate(Calendar calendar) {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setTitle(
-          calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " " + calendar.get(
-              Calendar.YEAR));
+          calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+              + " "
+              + calendar.get(Calendar.YEAR));
     }
   }
 

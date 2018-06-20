@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.rilixtech.agendacalendarview.calendar.CalendarView
-        android:id="@+id/calendar_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+  <!-- All views is founded by getChildAt method in the code, hence we don't use id -->
+  <com.rilixtech.agendacalendarview.calendar.CalendarView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
 
-    <com.rilixtech.agendacalendarview.agenda.AgendaView
-        android:id="@+id/agenda_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.rilixtech.agendacalendarview.agenda.AgendaView>
+  <com.rilixtech.agendacalendarview.agenda.AgendaView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
 
-    <com.rilixtech.agendacalendarview.widgets.FloatingActionButton
-        android:id="@+id/floating_action_button"
-        style="@style/fab"
-        />
+  <com.rilixtech.agendacalendarview.widgets.FloatingActionButton
+      style="@style/fab"
+      />
 
 </merge>
