@@ -44,18 +44,16 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
   private boolean mDragging;
   private boolean mAlphaSet;
   private int mDayTextColor, mPastDayTextColor, mCurrentDayColor;
-  private List<CalendarEvent> mEvents;
 
   // region Constructor
 
   public WeeksAdapter(Context context, Calendar today, int dayTextColor, int currentDayTextColor,
-      int pastDayTextColor, List<CalendarEvent> events) {
+      int pastDayTextColor) {
     this.mToday = today;
     this.mContext = context;
     this.mDayTextColor = dayTextColor;
     this.mCurrentDayColor = currentDayTextColor;
     this.mPastDayTextColor = pastDayTextColor;
-    this.mEvents = events;
   }
 
   // endregion
@@ -131,7 +129,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
       setUpChildren(daysContainer);
     }
 
-    public void bindWeek(IWeekItem weekItem, Calendar today) {
+    private void bindWeek(IWeekItem weekItem, Calendar today) {
       Log.d(TAG, "bindWeek called");
       setUpMonthOverlay();
       //if(true) return;
@@ -225,8 +223,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
         animatorSetFadeIn.setDuration(FADE_DURATION);
         ObjectAnimator animatorTxtAlphaIn =
             ObjectAnimator.ofFloat(mTvMonth, "alpha", mTvMonth.getAlpha(), 1f);
-        ObjectAnimator animatorBackgroundAlphaIn =
-            ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 1f);
+        //ObjectAnimator animatorBackgroundAlphaIn =
+        //    ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 1f);
         animatorSetFadeIn.playTogether(animatorTxtAlphaIn
             //animatorBackgroundAlphaIn
         );
@@ -253,8 +251,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
         animatorSetFadeOut.setDuration(FADE_DURATION);
         ObjectAnimator animatorTxtAlphaOut =
             ObjectAnimator.ofFloat(mTvMonth, "alpha", mTvMonth.getAlpha(), 0f);
-        ObjectAnimator animatorBackgroundAlphaOut =
-            ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 0f);
+        //ObjectAnimator animatorBackgroundAlphaOut =
+        //    ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 0f);
         animatorSetFadeOut.playTogether(animatorTxtAlphaOut
             //animatorBackgroundAlphaOut
         );
