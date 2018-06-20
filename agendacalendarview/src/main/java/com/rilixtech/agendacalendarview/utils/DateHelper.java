@@ -20,6 +20,8 @@ public class DateHelper {
 
   // region Public methods
 
+  private static Calendar mCalendar = null;
+
   /**
    * Check if two Calendar instances have the same time (by month, year and day of month)
    *
@@ -41,10 +43,10 @@ public class DateHelper {
    * @return True if both have the same time.
    */
   public static boolean sameDate(Calendar cal, Date selectedDate) {
-    Calendar selectedCal = Calendar.getInstance();
-    selectedCal.setTime(selectedDate);
-    return cal.get(Calendar.MONTH) == selectedCal.get(Calendar.MONTH) && cal.get(Calendar.YEAR) == selectedCal.get(
-        Calendar.YEAR) && cal.get(Calendar.DAY_OF_MONTH) == selectedCal.get(Calendar.DAY_OF_MONTH);
+    if(mCalendar == null) mCalendar = Calendar.getInstance();
+    mCalendar.setTime(selectedDate);
+    return cal.get(Calendar.MONTH) == mCalendar.get(Calendar.MONTH) && cal.get(Calendar.YEAR) == mCalendar.get(
+        Calendar.YEAR) && cal.get(Calendar.DAY_OF_MONTH) == mCalendar.get(Calendar.DAY_OF_MONTH);
   }
 
   /**
@@ -56,10 +58,10 @@ public class DateHelper {
    * @return True if the verified date is between the two specified dates.
    */
   public static boolean isBetweenInclusive(Date selectedDate, Calendar startCal, Calendar endCal) {
-    Calendar selectedCal = Calendar.getInstance();
-    selectedCal.setTime(selectedDate);
+    if(mCalendar == null) mCalendar = Calendar.getInstance();
+    mCalendar.setTime(selectedDate);
     // Check if we deal with the same day regarding startCal and endCal
-    return sameDate(selectedCal, startCal) || selectedCal.after(startCal) && selectedCal.before(endCal);
+    return sameDate(mCalendar, startCal) || mCalendar.after(startCal) && mCalendar.before(endCal);
   }
 
   /**

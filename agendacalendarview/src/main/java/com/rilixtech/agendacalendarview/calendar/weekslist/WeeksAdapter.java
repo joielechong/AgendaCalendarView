@@ -1,8 +1,10 @@
 package com.rilixtech.agendacalendarview.calendar.weekslist;
 
 import android.util.Log;
+import android.widget.RelativeLayout;
 import com.rilixtech.agendacalendarview.CalendarManager;
 import com.rilixtech.agendacalendarview.R;
+import com.rilixtech.agendacalendarview.models.CalendarEvent;
 import com.rilixtech.agendacalendarview.models.IDayItem;
 import com.rilixtech.agendacalendarview.models.IWeekItem;
 import com.rilixtech.agendacalendarview.utils.DateHelper;
@@ -23,6 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.rilixtech.agendacalendarview.widgets.EventIndicatorView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,16 +44,18 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
   private boolean mDragging;
   private boolean mAlphaSet;
   private int mDayTextColor, mPastDayTextColor, mCurrentDayColor;
+  private List<CalendarEvent> mEvents;
 
   // region Constructor
 
   public WeeksAdapter(Context context, Calendar today, int dayTextColor, int currentDayTextColor,
-      int pastDayTextColor) {
+      int pastDayTextColor, List<CalendarEvent> events) {
     this.mToday = today;
     this.mContext = context;
     this.mDayTextColor = dayTextColor;
     this.mCurrentDayColor = currentDayTextColor;
     this.mPastDayTextColor = pastDayTextColor;
+    this.mEvents = events;
   }
 
   // endregion
@@ -114,7 +119,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
     /**
      * List of layout containers for each day
      */
-    private List<LinearLayout> mCells;
+    private List<RelativeLayout> mCells;
     private TextView mTvMonth;
     private FrameLayout mMonthBackground;
 
@@ -127,16 +132,25 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
     }
 
     public void bindWeek(IWeekItem weekItem, Calendar today) {
+      Log.d(TAG, "bindWeek called");
       setUpMonthOverlay();
+      //if(true) return;
 
       List<IDayItem> dayItems = weekItem.getDayItems();
+      Log.d(TAG, "dayItems = " + dayItems.size());
 
       for (int c = 0; c < dayItems.size(); c++) {
         final IDayItem dayItem = dayItems.get(c);
-        LinearLayout cellItem = mCells.get(c);
+        RelativeLayout cellItem = mCells.get(c);
         TextView tvDay = cellItem.findViewById(R.id.view_day_day_label);
         TextView tvMonth = cellItem.findViewById(R.id.view_day_month_label);
         View circleView = cellItem.findViewById(R.id.view_day_circle_selected);
+        EventIndicatorView indicatorView = cellItem.findViewById(R.id.view_day_event_indicator_eiv);
+
+        // show event indicator
+        //int totalIndicator = eventPerDay(dayItem);
+        indicatorView.setIndicatorAmount(dayItem.getEventTotal());
+
         cellItem.setOnClickListener(v -> {
           Log.d(TAG, "Clicked item");
           EventBus.getDefault().post(new DayClickedEvent(dayItem));
@@ -161,7 +175,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
         }
 
         // Check if this day is in the past
-        if (today.getTime().after(dayItem.getDate()) && !DateHelper.sameDate(today, dayItem.getDate())) {
+        if (today.getTime().after(dayItem.getDate()) && !DateHelper.sameDate(today,
+            dayItem.getDate())) {
           tvDay.setTextColor(mPastDayTextColor);
           tvMonth.setTextColor(mPastDayTextColor);
         }
@@ -176,7 +191,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
           tvDay.setTextColor(mDayTextColor);
           circleView.setVisibility(View.VISIBLE);
           GradientDrawable drawable = (GradientDrawable) circleView.getBackground();
-          drawable.setStroke((int) (1 * Resources.getSystem().getDisplayMetrics().density), mDayTextColor);
+          drawable.setStroke((int) (1 * Resources.getSystem().getDisplayMetrics().density),
+              mDayTextColor);
         }
 
         // Check if the month label has to be displayed
@@ -197,7 +213,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
     private void setUpChildren(LinearLayout daysContainer) {
       mCells = new ArrayList<>();
       for (int i = 0; i < daysContainer.getChildCount(); i++) {
-        mCells.add((LinearLayout) daysContainer.getChildAt(i));
+        mCells.add((RelativeLayout) daysContainer.getChildAt(i));
       }
     }
 
@@ -207,7 +223,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
       if (isDragging()) {
         AnimatorSet animatorSetFadeIn = new AnimatorSet();
         animatorSetFadeIn.setDuration(FADE_DURATION);
-        ObjectAnimator animatorTxtAlphaIn = ObjectAnimator.ofFloat(mTvMonth, "alpha", mTvMonth.getAlpha(), 1f);
+        ObjectAnimator animatorTxtAlphaIn =
+            ObjectAnimator.ofFloat(mTvMonth, "alpha", mTvMonth.getAlpha(), 1f);
         ObjectAnimator animatorBackgroundAlphaIn =
             ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 1f);
         animatorSetFadeIn.playTogether(animatorTxtAlphaIn
@@ -234,7 +251,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
       } else {
         AnimatorSet animatorSetFadeOut = new AnimatorSet();
         animatorSetFadeOut.setDuration(FADE_DURATION);
-        ObjectAnimator animatorTxtAlphaOut = ObjectAnimator.ofFloat(mTvMonth, "alpha", mTvMonth.getAlpha(), 0f);
+        ObjectAnimator animatorTxtAlphaOut =
+            ObjectAnimator.ofFloat(mTvMonth, "alpha", mTvMonth.getAlpha(), 0f);
         ObjectAnimator animatorBackgroundAlphaOut =
             ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 0f);
         animatorSetFadeOut.playTogether(animatorTxtAlphaOut

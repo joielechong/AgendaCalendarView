@@ -208,7 +208,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 
     // Feed our views with weeks list and events
     mCalendarView.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor, mCalendarCurrentDayColor,
-        mCalendarPastDayTextColor);
+        mCalendarPastDayTextColor, CalendarManager.getInstance().getEvents());
 
     // Load agenda events and scroll to current day
     AgendaAdapter agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor);
@@ -231,7 +231,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 
     // Feed our views with weeks list and events
     mCalendarView.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor, mCalendarCurrentDayColor,
-        mCalendarPastDayTextColor);
+        mCalendarPastDayTextColor, lEvents);
 
     // Load agenda events and scroll to current day
     AgendaAdapter agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor);

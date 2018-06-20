@@ -12,7 +12,7 @@
         android:label="@string/app_name">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
-
+        <!-- The meta-data tag is required if you support API level 15 and lower -->
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>

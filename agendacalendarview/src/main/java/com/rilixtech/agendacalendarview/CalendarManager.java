@@ -1,6 +1,7 @@
 package com.rilixtech.agendacalendarview;
 
 import com.rilixtech.agendacalendarview.models.CalendarEvent;
+import com.rilixtech.agendacalendarview.models.DayItem;
 import com.rilixtech.agendacalendarview.models.IDayItem;
 import com.rilixtech.agendacalendarview.models.IWeekItem;
 import com.rilixtech.agendacalendarview.utils.DateHelper;
@@ -178,9 +179,9 @@ public class CalendarManager {
   }
 
   public void loadEvents(List<CalendarEvent> eventList, CalendarEvent noEvent) {
-
     for (IWeekItem weekItem : getWeeks()) {
-      for (IDayItem dayItem : weekItem.getDayItems()) {
+      for (int i = 0; i < weekItem.getDayItems().size(); i++) {
+        DayItem dayItem = (DayItem) weekItem.getDayItems().get(i);
         boolean isEventForDay = false;
         for (CalendarEvent event : eventList) {
           if (DateHelper.isBetweenInclusive(dayItem.getDate(), event.getStartTime(), event.getEndTime())) {
@@ -194,14 +195,16 @@ public class CalendarManager {
             // add instances in chronological order
             getEvents().add(copy);
             isEventForDay = true;
+
+            dayItem.setEventTotal(dayItem.getEventTotal()+1);
           }
         }
         if (!isEventForDay) {
-          Calendar dayInstance = Calendar.getInstance();
-          dayInstance.setTime(dayItem.getDate());
+          Calendar calendar = Calendar.getInstance();
+          calendar.setTime(dayItem.getDate());
           CalendarEvent copy = noEvent.copy();
 
-          copy.setInstanceDay(dayInstance);
+          copy.setInstanceDay(calendar);
           copy.setDayReference(dayItem);
           copy.setWeekReference(weekItem);
           copy.setLocation("");
@@ -224,29 +227,48 @@ public class CalendarManager {
 
   // region Private methods
 
+  Calendar mCalendar;
   private List<IDayItem> getDayCells(Calendar startCal) {
-    Calendar cal = Calendar.getInstance(mLocale);
-    cal.setTime(startCal.getTime());
+    if(mCalendar == null) mCalendar = Calendar.getInstance(mLocale);
+    mCalendar.setTime(startCal.getTime());
     List<IDayItem> dayItems = new ArrayList<>();
 
-    int firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-    int offset = cal.getFirstDayOfWeek() - firstDayOfWeek;
+    int firstDayOfWeek = mCalendar.get(Calendar.DAY_OF_WEEK);
+    int offset = mCalendar.getFirstDayOfWeek() - firstDayOfWeek;
     if (offset > 0) {
       offset -= 7;
     }
-    cal.add(Calendar.DATE, offset);
+    mCalendar.add(Calendar.DATE, offset);
 
-    Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
+    Log.d(LOG_TAG, String.format("Buiding row week starting at %s", mCalendar.getTime()));
     for (int c = 0; c < 7; c++) {
       IDayItem dayItem = mCleanDay.copy();
-      dayItem.buildDayItemFromCal(cal);
+      dayItem.buildDayItemFromCal(mCalendar);
+      //dayItem.setEventTotal(eventPerDay(dayItem));
       dayItems.add(dayItem);
-      cal.add(Calendar.DATE, 1);
+      mCalendar.add(Calendar.DATE, 1);
     }
 
     mDays.addAll(dayItems);
     return dayItems;
   }
+
+  ////TODO: This is still Error!!!
+  //private int eventPerDay(IDayItem dayItem) {
+  //  Log.d(LOG_TAG, "eventPerDay called");
+  //  Log.d(LOG_TAG, "mEvents.size() = " + mEvents.size());
+  //  int total = 0;
+  //  for (int i = 0; i < mEvents.size(); i++) {
+  //    Log.d("CalendarManager", mEvents.get(i).getTitle());
+  //    Log.d("CalendarManager", mEvents.get(i).getInstanceDay().toString());
+  //    Log.d("CalendarManager", dayItem.getDate().toString());
+  //    if (DateHelper.sameDate(mEvents.get(i).getInstanceDay(), dayItem.getDate())) {
+  //      total++;
+  //    }
+  //  }
+  //  Log.d(LOG_TAG, "eventPerDay terminated");
+  //  return total;
+  //}
 
   private void setLocale(Locale locale) {
     this.mLocale = locale;

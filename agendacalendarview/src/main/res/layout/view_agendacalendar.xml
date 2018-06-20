@@ -14,6 +14,7 @@
 
     <com.rilixtech.agendacalendarview.widgets.FloatingActionButton
         android:id="@+id/floating_action_button"
-        style="@style/fab"/>
+        style="@style/fab"
+        />
 
 </merge>

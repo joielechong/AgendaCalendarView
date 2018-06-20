@@ -17,6 +17,7 @@ public class DayItem implements IDayItem {
   private boolean mFirstDayOfTheMonth;
   private boolean mSelected;
   private String mMonth;
+  private int mEventTotal;
 
   // region Constructor
 
@@ -100,6 +101,13 @@ public class DayItem implements IDayItem {
 
   public void setDayOftheWeek(int mDayOftheWeek) {
     this.mDayOfTheWeek = mDayOftheWeek;
+  }
+
+  public void setEventTotal(int eventTotal) {
+    mEventTotal = eventTotal;
+  }
+  public int getEventTotal() {
+    return mEventTotal;
   }
 
   // region Public methods

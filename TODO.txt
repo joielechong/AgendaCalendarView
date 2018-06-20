@@ -1,0 +1,114 @@
+ 1. Add reminder 
+ the event details should be added to the calendar with the reminder. 
+ 
+ 2. Scroll calendar based on Calendar instance
+ I'me merging this with another library and based on the event in other class(where I just get the new date(Calendar instance) based on the current displayed date), 
+ So I need to scroll to that particular calendar date in CalendarView.
+ 
+ 3. Add Events after init or Refresh Events
+ I try to add an event after initialization or refresh the list of events.
+Do you have some advice? how to achieve that?
+
+I need to add event after init because I wait all events from an API.
+
+And if it's working, I can why not make a pull request, so if you can help me, it could be great.
+
+4. How to provide my own theme and color of the calendar view?
+
+5. update Calendar date
+hi , can we have func to just update AgendaCalendarView data without make it again ?
+
+6. String "agenda_event_no_events" doens't change to Portuguese Translation
+
+7. Event description
+How do we show the description for an event, 
+it's part of adding an event but I can't figure out where I can have it show up. Thanks
+
+8. How i can hide empty event from list
+
+9. Load more events
+I'd like to add more events and days when user will be at next month or when initial maxDate, minDate arent enough. How can i do it ?
+
+10. one week code
+i have seen your displaying calendar for two week,but i want code for one week only. if you have available one week code then please share with me.
+
+11. how can i store extra details of the event in DrawableCalendarEvent instance??
+hi @Tibolte
+like, event owner_id and associated people names with event..
+
+event if i create custom DrawableCalendarEvent() constructor and save it... i am getting CalenderEvent object when i clicked on an event...
+
+Q: how can i store additional information in calendar event and get it back OnClicking() the event.
+
+12. Possible to disable and enable a current day in calendar? #102
+
+For example December 24th can be displayed as a gray cell because is a holiday?
+
+Is there a way to achieve this using the library?
+
+13. need to customise textviews like: No Events, Month name sticky header when scroll calendar 
+I think we need more rights to customise agenda view
+
+14. how to delete items and refresh calendar
+Hello, thanks in advance for your attention.
+
+I would like to know how can i delete items and "inform" the adapter to erease the item. The issue is that if i use init again, it scrolls me all the way up to the beginning which is not cool at all.
+
+when i use evenList.remove(event), it may be removed from the calendar, but there is not a way to reload the calendar to make it dissapear, unless you init the calendar again, but as i mentioned before, it will make you scroll up to the beginning.
+
+Thanks for your help.
+
+15. Can i customize the Event ListView 
+Hi Can i customize the event list? I would like customize the row items in the list view. Can i do it? How can i do? Help please
+
+16. How to start each month on a new row in the calendar view?
+
+17. Possible to scroll per month instead of per week in the calendar view?
+For example if the current month is September and I pull down, then the calendar view will update to August. Actually I want to implement a left and right swipe listener to do this (swipe left to go to the next month and swipe right to go to the previous month).
+
+18. How to disable scrolling in the calendar view?
+The class CalendarView.java states that it is a freely scrolling view. I am reading through the code and I don't see where scrolling is implemented for the calendar view.
+
+19. Is there a way to show only the days with events? 
+Is there a way to show only the days with events?
+
+I don't wanna show all days or the days between minDate and maxDate, but show only the days with events.
+Is there a way?
+
+Yes, you can change the CalendarManager.loadEvents function, traverse your events and add them to CalendarManager.mEvents replace of traverse weekItem.
+
+20. How to add more events to current dynamically? 
+agendaCalendarView.init(data, minDate, maxDate, Locale.getDefault(), this);
+
+I want to add more data to the widget after init it. Could anybody please help?
+
+21. How to change start week by Monday instead of Sunday?
+private void setUpHeader(Calendar today, SimpleDateFormat weekDayFormatter, Locale locale) {
+int daysPerWeek = 7;
+String[] dayLabels = new String[daysPerWeek];
+Calendar cal = Calendar.getInstance(CalendarManager.getInstance(getContext()).getLocale());
+cal.setTime(today.getTime());
+int firstDayOfWeek = cal.getFirstDayOfWeek();
+
+      for (int count = 0; count < 7; count++) {
+        cal.set(Calendar.DAY_OF_WEEK, firstDayOfWeek + count);
+        if (locale.getLanguage().equals("en")) {
+            dayLabels[count] = weekDayFormatter.format(cal.getTime()).toUpperCase(locale);
+        } else {
+            dayLabels[count] = weekDayFormatter.format(cal.getTime());
+        }
+    }
+for (int i = 0; i < mDayNamesHeader.getChildCount(); i++) {
+TextView txtDay = (TextView) mDayNamesHeader.getChildAt(i);
+txtDay.setText(dayLabels[i]);
+}
+}
+
+22. Can't highlight days (days that have event's ), i think it's important part in the library 
+
+23. Different text color for events
+
+24. How to scroll to a particular position in the calender from another activity?
+I wanted to implement a feature in my app like if i navigate from one activity to the calendar activity so that it would set to a particular scrolled position. Is there any predefined way (any kind of scroll function) in the library so that i can implement this feature?
+
+mAgendaView.getAgendaListView().scrollToCurrentDate(selectedDate);

@@ -120,14 +120,15 @@ public class CalendarView extends LinearLayout {
 
   // region Public methods
 
-  public void init(CalendarManager calendarManager, int dayTextColor, int currentDayTextColor, int pastDayTextColor) {
+  public void init(CalendarManager calendarManager, int dayTextColor, int currentDayTextColor,
+      int pastDayTextColor, List<CalendarEvent> events) {
     Calendar today = calendarManager.getToday();
     Locale locale = calendarManager.getLocale();
     SimpleDateFormat weekDayFormatter = calendarManager.getWeekdayFormatter();
     List<IWeekItem> weeks = calendarManager.getWeeks();
 
     setUpHeader(today, weekDayFormatter, locale);
-    setUpAdapter(today, weeks, dayTextColor, currentDayTextColor, pastDayTextColor);
+    setUpAdapter(today, weeks, dayTextColor, currentDayTextColor, pastDayTextColor, events);
     scrollToDate(today, weeks);
   }
 
@@ -179,10 +180,10 @@ public class CalendarView extends LinearLayout {
    * Creates a new adapter if necessary and sets up its parameters.
    */
   private void setUpAdapter(Calendar today, List<IWeekItem> weeks, int dayTextColor, int currentDayTextColor,
-      int pastDayTextColor) {
+      int pastDayTextColor, List<CalendarEvent> events) {
     if (mWeeksAdapter == null) {
       Log.d(LOG_TAG, "Setting adapter with today's calendar: " + today.toString());
-      mWeeksAdapter = new WeeksAdapter(getContext(), today, dayTextColor, currentDayTextColor, pastDayTextColor);
+      mWeeksAdapter = new WeeksAdapter(getContext(), today, dayTextColor, currentDayTextColor, pastDayTextColor, events);
       mListViewWeeks.setAdapter(mWeeksAdapter);
     }
     mWeeksAdapter.updateWeeksItems(weeks);

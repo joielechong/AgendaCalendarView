@@ -35,6 +35,9 @@ public interface IDayItem {
 
   void setDayOftheWeek(int mDayOftheWeek);
 
+  void setEventTotal(int total);
+  int getEventTotal();
+
   // endregion
 
   void buildDayItemFromCal(Calendar calendar);

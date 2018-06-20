@@ -1,32 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="0dip"
     android:layout_height="@dimen/day_cell_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_weight="1"
     android:gravity="center"
-    android:orientation="vertical">
+    >
 
-    <TextView
-        android:id="@+id/view_day_month_label"
-        style="@style/CalendarCellText"
-        android:visibility="gone" />
+  <TextView
+      android:id="@+id/view_day_month_label"
+      android:layout_centerHorizontal="true"
+      android:textAlignment="center"
+      android:visibility="gone"
+      style="@style/CalendarCellText"
+      />
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+  <!---->
+  <!--<FrameLayout-->
+  <!--android:layout_below="@+id/view_day_month_label"-->
+  <!--android:layout_width="wrap_content"-->
+  <!--android:layout_height="wrap_content"-->
+  <!--android:layout_centerHorizontal="true"-->
+  <!--&gt;-->
 
-        <View
-            android:id="@+id/view_day_circle_selected"
-            android:layout_width="@dimen/circle_selected_size"
-            android:layout_height="@dimen/circle_selected_size"
-            android:background="@drawable/event_color_circle"
-            android:visibility="gone"/>
+  <View
+      android:id="@+id/view_day_circle_selected"
+      android:layout_width="@dimen/circle_selected_size"
+      android:layout_height="@dimen/circle_selected_size"
+      android:layout_below="@+id/view_day_month_label"
+      android:layout_centerInParent="true"
+      android:background="@drawable/event_color_circle"
+      android:visibility="gone"
+      />
 
-        <TextView
-            android:id="@+id/view_day_day_label"
-            android:layout_gravity="center"
-            style="@style/CalendarCellText"/>
+  <TextView
+      android:id="@+id/view_day_day_label"
+      android:layout_below="@+id/view_day_month_label"
+      android:layout_centerInParent="true"
+      android:textAlignment="center"
+      style="@style/CalendarCellText"
+      />
 
-    </FrameLayout>
+  <!--</FrameLayout>-->
 
-</LinearLayout>
+  <com.rilixtech.agendacalendarview.widgets.EventIndicatorView
+      android:id="@+id/view_day_event_indicator_eiv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:circleRadius="3dp"
+      android:layout_centerHorizontal="true"
+      app:indicatorAmount="3"
+      android:layout_below="@+id/view_day_day_label"
+      />
+
+  <!--<LinearLayout-->
+      <!--android:layout_width="wrap_content"-->
+      <!--android:layout_height="wrap_content"-->
+      <!--android:layout_below="@+id/view_day_day_label"-->
+      <!--android:layout_marginTop="-12dp"-->
+      <!--android:orientation="horizontal"-->
+      <!--&gt;-->
+
+    <!--<com.rilixtech.agendacalendarview.widgets.CircleView-->
+        <!--android:id="@+id/s1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--/>-->
+    <!--<com.rilixtech.agendacalendarview.widgets.CircleView-->
+        <!--android:id="@+id/s2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--/>-->
+  <!--</LinearLayout>-->
+
+</RelativeLayout>
