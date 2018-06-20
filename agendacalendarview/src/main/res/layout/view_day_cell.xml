@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="0dip"
     android:layout_height="@dimen/day_cell_height"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_weight="1"
     android:gravity="center"
     >
 
+  <!-- Please remember to check the corresponding WeeksAdapter class when changing the       -->
+  <!-- sequence of the views. WeeksAdapter is using view position with getChildAt as a means -->
+  <!-- to reduce the time finding the views-->
   <TextView
       android:id="@+id/view_day_month_label"
       android:layout_centerHorizontal="true"
@@ -33,16 +36,14 @@
       style="@style/CalendarCellText"
       />
 
-  <!--</FrameLayout>-->
-
   <com.rilixtech.agendacalendarview.widgets.EventIndicatorView
       android:id="@+id/view_day_event_indicator_eiv"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      app:circleRadius="3dp"
-      android:layout_centerHorizontal="true"
-      app:indicatorAmount="3"
       android:layout_below="@+id/view_day_day_label"
+      android:layout_centerHorizontal="true"
+      app:circleRadius="3dp"
+      app:indicatorAmount="3"
       />
 
 </RelativeLayout>

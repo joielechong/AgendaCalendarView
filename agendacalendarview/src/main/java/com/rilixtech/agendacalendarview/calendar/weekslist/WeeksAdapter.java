@@ -4,7 +4,6 @@ import android.util.Log;
 import android.widget.RelativeLayout;
 import com.rilixtech.agendacalendarview.CalendarManager;
 import com.rilixtech.agendacalendarview.R;
-import com.rilixtech.agendacalendarview.models.CalendarEvent;
 import com.rilixtech.agendacalendarview.models.IDayItem;
 import com.rilixtech.agendacalendarview.models.IWeekItem;
 import com.rilixtech.agendacalendarview.utils.DateHelper;
@@ -45,8 +44,6 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
   private boolean mAlphaSet;
   private int mDayTextColor, mPastDayTextColor, mCurrentDayColor;
 
-  // region Constructor
-
   public WeeksAdapter(Context context, Calendar today, int dayTextColor, int currentDayTextColor,
       int pastDayTextColor) {
     this.mToday = today;
@@ -56,15 +53,11 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
     this.mPastDayTextColor = pastDayTextColor;
   }
 
-  // endregion
-
   public void updateWeeksItems(List<IWeekItem> weekItems) {
     this.mWeeksList.clear();
     this.mWeeksList.addAll(weekItems);
     notifyDataSetChanged();
   }
-
-  // region Getters/setters
 
   public List<IWeekItem> getWeeksList() {
     return mWeeksList;
@@ -75,8 +68,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
   }
 
   public void setDragging(boolean dragging) {
-    if (dragging != this.mDragging) {
-      this.mDragging = dragging;
+    if (dragging != mDragging) {
+      mDragging = dragging;
       notifyItemRangeChanged(0, mWeeksList.size());
     }
   }
@@ -88,10 +81,6 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
   public void setAlphaSet(boolean alphaSet) {
     mAlphaSet = alphaSet;
   }
-
-  // endregion
-
-  // region RecyclerView.Adapter<WeeksAdapter.WeekViewHolder> methods
 
   @Override public WeekViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -108,15 +97,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
     return mWeeksList.size();
   }
 
-  // endregion
+  class WeekViewHolder extends RecyclerView.ViewHolder {
 
-  // region Class - WeekViewHolder
-
-  public class WeekViewHolder extends RecyclerView.ViewHolder {
-
-    /**
-     * List of layout containers for each day
-     */
     private List<RelativeLayout> mCells;
     private TextView mTvMonth;
     private FrameLayout mMonthBackground;
@@ -140,10 +122,14 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
       for (int c = 0; c < dayItems.size(); c++) {
         final IDayItem dayItem = dayItems.get(c);
         RelativeLayout cellItem = mCells.get(c);
-        TextView tvDay = cellItem.findViewById(R.id.view_day_day_label);
-        TextView tvMonth = cellItem.findViewById(R.id.view_day_month_label);
-        View circleView = cellItem.findViewById(R.id.view_day_circle_selected);
-        EventIndicatorView indicatorView = cellItem.findViewById(R.id.view_day_event_indicator_eiv);
+        //TextView tvMonth = cellItem.findViewById(R.id.view_day_month_label);
+        //View circleView = cellItem.findViewById(R.id.view_day_circle_selected);
+        //TextView tvDay = cellItem.findViewById(R.id.view_day_day_label);
+        //EventIndicatorView indicatorView = cellItem.findViewById(R.id.view_day_event_indicator_eiv);
+        TextView tvMonth = (TextView) cellItem.getChildAt(0);
+        View circleView = cellItem.getChildAt(1);
+        TextView tvDay = (TextView) cellItem.getChildAt(2);
+        EventIndicatorView indicatorView = (EventIndicatorView) cellItem.getChildAt(3);
 
         // show event indicator
         //int totalIndicator = eventPerDay(dayItem);
@@ -277,14 +263,10 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
       }
 
       if (isAlphaSet()) {
-        //mMonthBackground.setAlpha(1f);
         mTvMonth.setAlpha(1f);
       } else {
-        //mMonthBackground.setAlpha(0f);
         mTvMonth.setAlpha(0f);
       }
     }
   }
-
-  // endregion
 }
