@@ -25,7 +25,7 @@ public class AgendaView extends FrameLayout {
 
   private AgendaListView mAgendaListView;
   private View mShadowView;
-  private boolean enablePlaceholder;
+  private boolean enablePlaceholder = true;
 
   // region Constructors
 
@@ -47,7 +47,7 @@ public class AgendaView extends FrameLayout {
   @Override protected void onFinishInflate() {
     super.onFinishInflate();
 
-    mAgendaListView = (AgendaListView) findViewById(R.id.agenda_listview);
+    mAgendaListView = findViewById(R.id.agenda_listview);
     mShadowView = findViewById(R.id.view_shadow);
 
     EventBus.getDefault().register(this);

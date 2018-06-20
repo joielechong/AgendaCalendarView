@@ -1,14 +1,10 @@
 package com.rilixtech.sample;
 
 import com.rilixtech.agendacalendarview.AgendaCalendarView;
-import com.rilixtech.agendacalendarview.CalendarManager;
 import com.rilixtech.agendacalendarview.CalendarPickerController;
 import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
 import com.rilixtech.agendacalendarview.models.CalendarEvent;
-import com.rilixtech.agendacalendarview.models.DayItem;
 import com.rilixtech.agendacalendarview.models.IDayItem;
-import com.rilixtech.agendacalendarview.models.IWeekItem;
-import com.rilixtech.agendacalendarview.models.WeekItem;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -50,28 +46,26 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
     mockList(eventList);
     // Sync way
         /*
-        mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), this);
+        mAgendaCalendarView.build(eventList, minDate, maxDate, Locale.getDefault(), this);
         mAgendaCalendarView.addEventRenderer(new DrawableEventRenderer());
         */
     //Async way
 
     //////// This can be done once in another thread
-    CalendarManager calendarManager = CalendarManager.getInstance(getApplicationContext());
-    calendarManager.buildCal(minDate, maxDate, Locale.getDefault());
-    calendarManager.loadEvents(eventList, new BaseCalendarEvent());
-    ////////
+    //CalendarManager calendarManager = CalendarManager.initInstance(getApplicationContext());
+    //calendarManager.buildCal(minDate, maxDate, Locale.getDefault());
+    //calendarManager.loadEvents(eventList, new BaseCalendarEvent());
+    //////////
+    //
+    //List<CalendarEvent> readyEvents = calendarManager.getEvents();
+    //List<IDayItem> readyDays = calendarManager.getDays();
+    //List<IWeekItem> readyWeeks = calendarManager.getWeeks();
+    //mAgendaCalendarView.build(Locale.getDefault(), readyWeeks, readyDays, readyEvents, this);
 
-    List<CalendarEvent> readyEvents = calendarManager.getEvents();
-    List<IDayItem> readyDays = calendarManager.getDays();
-    List<IWeekItem> readyWeeks = calendarManager.getWeeks();
-    mAgendaCalendarView.init(Locale.getDefault(), readyWeeks, readyDays, readyEvents, this);
+    mAgendaCalendarView.build(minDate, maxDate, eventList, Locale.getDefault(), this);
     mAgendaCalendarView.addEventRenderer(new DrawableEventRenderer());
-    mAgendaCalendarView.enableCalenderView(true);
+    //mAgendaCalendarView.enableCalenderView(true);
   }
-
-  // endregion
-
-  // region Interface - CalendarPickerController
 
   @Override public void onDaySelected(IDayItem dayItem) {
     Log.d(LOG_TAG, String.format("Selected day: %s", dayItem));

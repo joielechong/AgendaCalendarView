@@ -192,7 +192,7 @@ public class CalendarView extends LinearLayout {
   private void setUpHeader(Calendar today, SimpleDateFormat weekDayFormatter, Locale locale) {
     int daysPerWeek = 7;
     String[] dayLabels = new String[daysPerWeek];
-    Calendar cal = Calendar.getInstance(CalendarManager.getInstance(getContext()).getLocale());
+    Calendar cal = Calendar.getInstance(CalendarManager.getInstance().getLocale());
     cal.setTime(today.getTime());
     int firstDayOfWeek = cal.getFirstDayOfWeek();
     for (int count = 0; count < 7; count++) {
