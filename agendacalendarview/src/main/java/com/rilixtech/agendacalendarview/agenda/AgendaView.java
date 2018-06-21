@@ -117,30 +117,31 @@ public class AgendaView extends FrameLayout {
     getAgendaListView().scrollToCurrentDate(event.getCalendar());
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(CalendarScrolledEvent event) {
-      int offset = (int) (3 * getResources().getDimension(R.dimen.day_cell_height));
-      translateList(offset);
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(CalendarScrolledEvent event) {
+    int offset = (int) (3 * getResources().getDimension(R.dimen.day_cell_height));
+    translateList(offset);
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(ForecastFetchedEvent event) {
-    ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(CalendarManager.getInstance().getEvents());
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(ForecastFetchedEvent event) {
+    ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(
+        CalendarManager.getInstance().getEvents());
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(FetchedEvent event) {
-    ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(CalendarManager.getInstance().getEvents());
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(FetchedEvent event) {
+    ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(
+        CalendarManager.getInstance().getEvents());
 
     getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                                                       @Override public void onGlobalLayout() {
                                                         if (getWidth() != 0 && getHeight() != 0) {
                                                           // display only two visible rows on the calendar view
                                                           if (enablePlaceholder) {
-                                                            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
+                                                            ViewGroup.MarginLayoutParams layoutParams =
+                                                                (ViewGroup.MarginLayoutParams) getLayoutParams();
                                                             int height = getHeight();
-                                                            int margin = (int) (getContext().getResources().getDimension(R.dimen.calendar_header_height)
-                                                                + 2 * getContext().getResources().getDimension(R.dimen.day_cell_height));
+                                                            int margin =
+                                                                (int) (getContext().getResources().getDimension(R.dimen.calendar_header_height)
+                                                                    + 2 * getContext().getResources().getDimension(R.dimen.day_cell_height));
                                                             layoutParams.height = height;
                                                             layoutParams.setMargins(0, margin, 0, 0);
                                                             setLayoutParams(layoutParams);
@@ -155,7 +156,4 @@ public class AgendaView extends FrameLayout {
 
     );
   }
-
-
-  // endregion
 }

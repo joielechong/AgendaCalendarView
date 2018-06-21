@@ -5,11 +5,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.rilixtech.agendacalendarview.models.CalendarEvent;
 import com.rilixtech.agendacalendarview.render.EventRenderer;
 
 public class DrawableEventRenderer extends EventRenderer<DrawableCalendarEvent> {
 
-  // region Class - EventRenderer
+  //public DrawableEventRenderer() {
+  //  super;
+  //}
 
   @Override public void render(View view, DrawableCalendarEvent event) {
     ImageView imageView = view.findViewById(R.id.view_agenda_event_image);
@@ -48,6 +51,10 @@ public class DrawableEventRenderer extends EventRenderer<DrawableCalendarEvent> 
 
   @Override public Class<DrawableCalendarEvent> getRenderType() {
     return DrawableCalendarEvent.class;
+  }
+
+  @Override public EventRenderer<?> copy() {
+    return new DrawableEventRenderer();
   }
 
   // endregion

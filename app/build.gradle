@@ -32,12 +32,7 @@ android {
   }
 }
 
-configurations {
-  compile.exclude module: 'support-annotations'
-}
-
 dependencies {
-  compile project(':agendacalendarview')
-  compile fileTree(dir: 'libs', include: ['*.jar'])
+  implementation project(':agendacalendarview')
 //  compile 'com.github.joielechong:agendacalendarview:1.1.5'
 }

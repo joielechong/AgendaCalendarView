@@ -21,9 +21,7 @@ import com.rilixtech.agendacalendarview.agenda.AgendaView;
 import com.rilixtech.agendacalendarview.calendar.CalendarView;
 import com.rilixtech.agendacalendarview.event.DayClickedEvent;
 import com.rilixtech.agendacalendarview.event.FetchedEvent;
-import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
 import com.rilixtech.agendacalendarview.models.CalendarEvent;
-import com.rilixtech.agendacalendarview.render.DefaultEventRenderer;
 import com.rilixtech.agendacalendarview.render.EventRenderer;
 import com.rilixtech.agendacalendarview.utils.ListViewScrollTracker;
 import com.rilixtech.agendacalendarview.widgets.FloatingActionButton;
@@ -79,7 +77,8 @@ public class AgendaCalendarView extends FrameLayout
         toAngle = -mMaxAngle;
       }
       RotateAnimation rotate =
-          new RotateAnimation(mCurrentAngle, toAngle, mFabDirection.getWidth() / 2, mFabDirection.getHeight() / 2);
+          new RotateAnimation(mCurrentAngle, toAngle, mFabDirection.getWidth() / 2,
+              mFabDirection.getHeight() / 2);
       rotate.setFillAfter(true);
       mCurrentAngle = toAngle;
       mFabDirection.startAnimation(rotate);
@@ -103,12 +102,20 @@ public class AgendaCalendarView extends FrameLayout
     int defCalCurrentDayColor = getResources().getColor(R.color.calendar_text_current_day);
     int defPastDayTextColor = getResources().getColor(R.color.theme_light_primary);
 
-    mAgendaCurrentDayTextColor = a.getColor(R.styleable.AgendaCalendarView_agendaCurrentDayTextColor, defAgendaCurrentDayTextColor);
-    mCalendarHeaderColor = a.getColor(R.styleable.AgendaCalendarView_calendarHeaderColor, defHeaderColor);
-    mCalendarBackgroundColor = a.getColor(R.styleable.AgendaCalendarView_calendarColor, defAgendaCurrentDayTextColor);
-    mCalendarDayTextColor = a.getColor(R.styleable.AgendaCalendarView_calendarDayTextColor, defDayTextColor);
-    mCalendarCurrentDayColor = a.getColor(R.styleable.AgendaCalendarView_calendarCurrentDayTextColor, defCalCurrentDayColor);
-    mCalendarPastDayTextColor = a.getColor(R.styleable.AgendaCalendarView_calendarPastDayTextColor, defPastDayTextColor);
+    mAgendaCurrentDayTextColor =
+        a.getColor(R.styleable.AgendaCalendarView_agendaCurrentDayTextColor,
+            defAgendaCurrentDayTextColor);
+    mCalendarHeaderColor =
+        a.getColor(R.styleable.AgendaCalendarView_calendarHeaderColor, defHeaderColor);
+    mCalendarBackgroundColor =
+        a.getColor(R.styleable.AgendaCalendarView_calendarColor, defAgendaCurrentDayTextColor);
+    mCalendarDayTextColor =
+        a.getColor(R.styleable.AgendaCalendarView_calendarDayTextColor, defDayTextColor);
+    mCalendarCurrentDayColor =
+        a.getColor(R.styleable.AgendaCalendarView_calendarCurrentDayTextColor,
+            defCalCurrentDayColor);
+    mCalendarPastDayTextColor =
+        a.getColor(R.styleable.AgendaCalendarView_calendarPastDayTextColor, defPastDayTextColor);
     mFabColor = a.getColor(R.styleable.AgendaCalendarView_fabColor, defFabColor);
 
     setAlpha(0f);
@@ -194,44 +201,25 @@ public class AgendaCalendarView extends FrameLayout
     }
   }
 
-  private void init(List<CalendarEvent> eventList, Calendar minDate, Calendar maxDate, Locale locale,
-      CalendarPickerController calendarPickerController) {
-    mCalendarPickerController = calendarPickerController;
-
-    CalendarManager.getInstance().buildCal(minDate, maxDate, locale);
-
-    // Feed our views with weeks list and events
-    mCalendarView.init(mCalendarDayTextColor,
-        mCalendarCurrentDayColor, mCalendarPastDayTextColor);
-
-    // Load agenda events and scroll to current day
-    AgendaAdapter agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor);
-    mAgendaView.getAgendaListView().setAdapter(agendaAdapter);
-    mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
-
-    CalendarManager.getInstance().loadEvents(eventList, new BaseCalendarEvent());
-    animateView();
-    Log.d(LOG_TAG, "CalendarEventTask finished");
-
-    addEventRenderer(new DefaultEventRenderer());
-  }
-
-  private void initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> events, Locale locale) {
+  private void initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> events,
+      Locale locale) {
     CalendarManager calendarManager = CalendarManager.initInstance(getContext());
     calendarManager.buildCal(minDate, maxDate, locale);
-    calendarManager.loadEvents(events, new BaseCalendarEvent());
+    calendarManager.loadEvents(events);
   }
 
   private void initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> events) {
     CalendarManager calendarManager = CalendarManager.initInstance(getContext());
     calendarManager.buildCal(minDate, maxDate, Locale.getDefault());
-    calendarManager.loadEvents(events, new BaseCalendarEvent());
+    calendarManager.loadEvents(events);
   }
 
   private Calendar minimumDate = null;
   private Calendar maximumDate = null;
   private Locale locale = null;
   private List<CalendarEvent> events = null;
+  private EventRenderer<?> mEventRenderer = null;
+
   public AgendaCalendarView setMinimumDate(@NonNull Calendar minimumDate) {
     this.minimumDate = minimumDate;
     return this;
@@ -257,20 +245,27 @@ public class AgendaCalendarView extends FrameLayout
     return this;
   }
 
-  public void build() {
-    if(minimumDate == null) throw new RuntimeException("Please set minimumDate");
-    if(maximumDate == null) throw new RuntimeException("Please set maximumDate");
-    if(events == null) throw new RuntimeException("Please set events");
-    if(mCalendarPickerController == null) throw new RuntimeException("Please set CalendarPickerController");
-
-    init(minimumDate, maximumDate, events, locale, mCalendarPickerController);
+  public AgendaCalendarView setEventRender(@Nullable EventRenderer<?> renderer) {
+    mEventRenderer = renderer;
+    return this;
   }
 
-  private void init(Calendar minDate, Calendar maxDate, List<CalendarEvent> eventList, Locale locale, CalendarPickerController pickerController) {
+  public void build() {
+    if (minimumDate == null) throw new RuntimeException("Please set minimumDate");
+    if (maximumDate == null) throw new RuntimeException("Please set maximumDate");
+    if (events == null) throw new RuntimeException("Please set events");
+    if (mCalendarPickerController == null) {
+      throw new RuntimeException("Please set CalendarPickerController");
+    }
+
+    init(minimumDate, maximumDate, events, locale, mCalendarPickerController, mEventRenderer);
+  }
+
+  private void init(Calendar minDate, Calendar maxDate, List<CalendarEvent> eventList,
+      Locale locale, CalendarPickerController pickerController, EventRenderer<?> eventRenderer) {
     mCalendarPickerController = pickerController;
 
-    // init
-    if(locale == null) {
+    if (locale == null) {
       initCalendarManager(minDate, maxDate, eventList);
     } else {
       initCalendarManager(minDate, maxDate, eventList, locale);
@@ -282,7 +277,13 @@ public class AgendaCalendarView extends FrameLayout
     mCalendarView.init(mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor);
 
     // Load agenda events and scroll to current day
-    AgendaAdapter agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor);
+    AgendaAdapter agendaAdapter;
+    if (eventRenderer == null) {
+      agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor);
+    } else {
+      agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor, eventRenderer);
+    }
+
     mAgendaView.getAgendaListView().setAdapter(agendaAdapter);
     mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
 
@@ -290,14 +291,6 @@ public class AgendaCalendarView extends FrameLayout
     // notify that actually everything is loaded
     EventBus.getDefault().post(new FetchedEvent());
     Log.d(LOG_TAG, "CalendarEventTask finished");
-
-    // add default event renderer
-    addEventRenderer(new DefaultEventRenderer());
-  }
-
-  public void addEventRenderer(@NonNull final EventRenderer<?> renderer) {
-    AgendaAdapter adapter = (AgendaAdapter) mAgendaView.getAgendaListView().getAdapter();
-    adapter.addEventRenderer(renderer);
   }
 
   public void enableCalenderView(boolean enable) {

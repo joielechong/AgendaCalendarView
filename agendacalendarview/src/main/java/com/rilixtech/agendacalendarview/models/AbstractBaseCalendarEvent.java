@@ -5,7 +5,7 @@ import java.util.Calendar;
 /**
  * Event model class containing the information to be displayed on the agenda view.
  */
-public class BaseCalendarEvent extends AbstractBaseCalendarEvent {
+public abstract class AbstractBaseCalendarEvent implements CalendarEvent {
 
   /**
    * Id of the event.
@@ -76,119 +76,19 @@ public class BaseCalendarEvent extends AbstractBaseCalendarEvent {
    */
   private double mTemperature;
 
-  // region Constructor
+  protected abstract static class Builder<T extends AbstractBaseCalendarEvent, B extends Builder<T, B>> {
+    protected T obj;
+    protected B thisObj;
 
-  /**
-   * Initializes the event
-   *
-   * @param id The id of the event.
-   * @param color The color of the event.
-   * @param title The title of the event.
-   * @param description The description of the event.
-   * @param location The location of the event.
-   * @param dateStart The start date of the event.
-   * @param dateEnd The end date of the event.
-   * @param allDay Int that can be equal to 0 or 1.
-   * @param duration The duration of the event in RFC2445 format.
-   */
-  public BaseCalendarEvent(long id, int color, String title, String description, String location, long dateStart,
-      long dateEnd, int allDay, String duration) {
-    this.mId = id;
-    this.mColor = color;
-    this.mAllDay = (allDay == 1);
-    this.mDuration = duration;
-    this.mTitle = title;
-    this.mDescription = description;
-    this.mLocation = location;
+    public Builder() {
+      obj = createObj(); thisObj = getThis();
+    }
 
-    this.mStartTime = Calendar.getInstance();
-    this.mStartTime.setTimeInMillis(dateStart);
-    this.mEndTime = Calendar.getInstance();
-    this.mEndTime.setTimeInMillis(dateEnd);
+    protected abstract T createObj();
+    protected abstract B getThis();
+
+    public T build() { return obj; }
   }
-
-  public BaseCalendarEvent() {
-
-  }
-
-  /**
-   * Initializes the event
-   *
-   * @param title The title of the event.
-   * @param description The description of the event.
-   * @param location The location of the event.
-   * @param color The color of the event (for display in the app).
-   * @param startTime The start time of the event.
-   * @param endTime The end time of the event.
-   * @param allDay Indicates if the event lasts the whole day.
-   */
-  public BaseCalendarEvent(String title, String description, String location, int color, Calendar startTime,
-      Calendar endTime, boolean allDay) {
-    this.mTitle = title;
-    this.mDescription = description;
-    this.mLocation = location;
-    this.mColor = color;
-    this.mStartTime = startTime;
-    this.mEndTime = endTime;
-    this.mAllDay = allDay;
-  }
-
-  public static class Builder extends AbstractBaseCalendarEvent.Builder<BaseCalendarEvent, BaseCalendarEvent.Builder> {
-
-    public Builder title(String title) {
-      obj.mTitle = title;
-      return thisObj;
-    }
-
-    public Builder description(String description) {
-      obj.mDescription = description;
-      return thisObj;
-    }
-
-    public Builder location(String location) {
-      obj.mLocation = location;
-      return thisObj;
-    }
-
-    public Builder color(int color) {
-      obj.mColor = color;
-      return thisObj;
-    }
-
-    public Builder startTime(Calendar startTime) {
-      obj.mStartTime = startTime;
-      return thisObj;
-    }
-
-    public Builder endTime(Calendar endTime) {
-      obj.mEndTime = endTime;
-      return thisObj;
-    }
-
-    public Builder allDay(boolean isAllDay) {
-      obj.mAllDay = isAllDay;
-      return thisObj;
-    }
-    protected BaseCalendarEvent createObj() { return new BaseCalendarEvent(); }
-    protected Builder getThis() { return this; }
-  }
-
-
-  public BaseCalendarEvent(BaseCalendarEvent calendarEvent) {
-    this.mId = calendarEvent.getId();
-    this.mColor = calendarEvent.getColor();
-    this.mAllDay = calendarEvent.isAllDay();
-    this.mDuration = calendarEvent.getDuration();
-    this.mTitle = calendarEvent.getTitle();
-    this.mDescription = calendarEvent.getDescription();
-    this.mLocation = calendarEvent.getLocation();
-    this.mStartTime = calendarEvent.getStartTime();
-    this.mEndTime = calendarEvent.getEndTime();
-  }
-
-  // endregion
-
-  // region Getters/Setters
 
   public int getColor() {
     return mColor;
@@ -331,13 +231,11 @@ public class BaseCalendarEvent extends AbstractBaseCalendarEvent {
     this.mTemperature = mTemperature;
   }
 
-  @Override public CalendarEvent copy() {
-    return new BaseCalendarEvent(this);
+  public CalendarEvent copy() {
+    return this;
   }
 
-  // endregion
-
   @Override public String toString() {
-    return "BaseCalendarEvent{" + "title='" + mTitle + ", instanceDay= " + mInstanceDay.getTime() + "}";
+    return "AbstractBaseCalendarEvent{" + "title='" + mTitle + ", instanceDay= " + mInstanceDay.getTime() + "}";
   }
 }

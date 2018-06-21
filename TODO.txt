@@ -20,8 +20,6 @@ And if it's working, I can why not make a pull request, so if you can help me, i
 5. update Calendar date
 hi , can we have func to just update AgendaCalendarView data without make it again ?
 
-6. String "agenda_event_no_events" doens't change to Portuguese Translation
-
 7. Event description
 How do we show the description for an event, 
 it's part of adding an event but I can't figure out where I can have it show up. Thanks

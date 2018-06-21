@@ -4,7 +4,6 @@ import com.rilixtech.agendacalendarview.models.CalendarEvent;
 import com.rilixtech.agendacalendarview.render.DefaultEventRenderer;
 import com.rilixtech.agendacalendarview.render.EventRenderer;
 
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,28 +21,24 @@ import com.rilixtech.stickylistheaders.StickyListHeadersAdapter;
 public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
   private List<CalendarEvent> mEvents = new ArrayList<>();
-  private List<EventRenderer<?>> mRenderers = new ArrayList<>();
+  private EventRenderer eventRenderer;
   private int mCurrentDayColor;
-
-  // region Constructor
 
   public AgendaAdapter(int currentDayTextColor) {
     this.mCurrentDayColor = currentDayTextColor;
+    this.eventRenderer = new DefaultEventRenderer();
   }
 
-  // endregion
-
-  // region Public methods
+  public AgendaAdapter(int currentDayTextColor, EventRenderer<?> eventRenderer) {
+    this.mCurrentDayColor = currentDayTextColor;
+    this.eventRenderer = eventRenderer;
+  }
 
   public void updateEvents(List<CalendarEvent> events) {
     this.mEvents.clear();
     this.mEvents.addAll(events);
     notifyDataSetChanged();
   }
-
-  // endregion
-
-  // region Interface - StickyListHeadersAdapter
 
   @Override public View getHeaderView(int position, View convertView, ViewGroup parent) {
     AgendaHeaderView agendaHeaderView = (AgendaHeaderView) convertView;
@@ -58,10 +53,6 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
     return mEvents.get(position).getInstanceDay().getTimeInMillis();
   }
 
-  // endregion
-
-  // region Class - BaseAdapter
-
   @Override public int getCount() {
     return mEvents.size();
   }
@@ -75,24 +66,9 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
   }
 
   @Override public View getView(int position, View convertView, ViewGroup parent) {
-    EventRenderer eventRenderer = new DefaultEventRenderer();
     final CalendarEvent event = getItem(position);
-
-    // Search for the correct event renderer
-    for (EventRenderer renderer : mRenderers) {
-      if (event.getClass().isAssignableFrom(renderer.getRenderType())) {
-        eventRenderer = renderer;
-        break;
-      }
-    }
     convertView = LayoutInflater.from(parent.getContext()).inflate(eventRenderer.getEventLayout(), parent, false);
     eventRenderer.render(convertView, event);
     return convertView;
   }
-
-  public void addEventRenderer(@NonNull final EventRenderer<?> renderer) {
-    mRenderers.add(renderer);
-  }
-
-  // endregion
 }

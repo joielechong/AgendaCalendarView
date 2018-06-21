@@ -17,4 +17,6 @@ public abstract class EventRenderer<T extends CalendarEvent> {
     ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
     return (Class<T>) type.getActualTypeArguments()[0];
   }
+
+  public abstract EventRenderer<?> copy();
 }

@@ -1,6 +1,7 @@
 package com.rilixtech.agendacalendarview;
 
 import android.support.annotation.NonNull;
+import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
 import com.rilixtech.agendacalendarview.models.CalendarEvent;
 import com.rilixtech.agendacalendarview.models.DayItem;
 import com.rilixtech.agendacalendarview.models.IDayItem;
@@ -168,7 +169,13 @@ public class CalendarManager {
     return weekItem;
   }
 
-  public void loadEvents(List<CalendarEvent> eventList, CalendarEvent noEvent) {
+  public void loadEvents(List<CalendarEvent> eventList) {
+    CalendarEvent noEvent;
+    if(eventList.size() == 0) {
+      noEvent = new BaseCalendarEvent();
+    } else {
+      noEvent = eventList.get(0);
+    }
     for (IWeekItem weekItem : getWeeks()) {
       for (int i = 0; i < weekItem.getDayItems().size(); i++) {
         DayItem dayItem = (DayItem) weekItem.getDayItems().get(i);

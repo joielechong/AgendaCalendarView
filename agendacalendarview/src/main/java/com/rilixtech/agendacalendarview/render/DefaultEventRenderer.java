@@ -6,18 +6,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.rilixtech.agendacalendarview.R;
 import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
+import com.rilixtech.agendacalendarview.models.CalendarEvent;
 
 /**
  * Class helping to inflate our default layout in the AgendaAdapter
  */
 public class DefaultEventRenderer extends EventRenderer<BaseCalendarEvent> {
-
-  // region class - EventRenderer
-
   @Override public void render(@NonNull View view, @NonNull BaseCalendarEvent event) {
     TextView tvTitle = view.findViewById(R.id.view_agenda_event_title);
     TextView tvLocation = view.findViewById(R.id.view_agenda_event_location);
-    LinearLayout descriptionContainer = view.findViewById(R.id.view_agenda_event_description_container);
+    LinearLayout descriptionContainer =
+        view.findViewById(R.id.view_agenda_event_description_container);
     LinearLayout locationContainer = view.findViewById(R.id.view_agenda_event_location_container);
     LinearLayout descriptionContainerLeft = view.findViewById(R.id.view_agenda_event_left);
 
@@ -46,5 +45,7 @@ public class DefaultEventRenderer extends EventRenderer<BaseCalendarEvent> {
     return R.layout.view_agenda_event;
   }
 
-  // endregion
+  @Override public EventRenderer<?> copy() {
+    return null;
+  }
 }
