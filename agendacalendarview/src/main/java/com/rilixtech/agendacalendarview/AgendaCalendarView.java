@@ -131,6 +131,11 @@ public class AgendaCalendarView extends FrameLayout
     mCalendarView = (CalendarView) getChildAt(0);
     mAgendaView = (AgendaView) getChildAt(1);
     mFabDirection = (FloatingActionButton) getChildAt(2);
+
+    //mCalendarView = findViewById(R.id.calendar_view);
+    //mAgendaView = findViewById(R.id.agenda_view);
+    //mFabDirection = findViewById(R.id.floating_action_button);
+
     ColorStateList csl = new ColorStateList(new int[][] { new int[0] }, new int[] { mFabColor });
     mFabDirection.setBackgroundTintList(csl);
 

@@ -1,5 +1,6 @@
 package com.rilixtech.sample;
 
+import android.widget.TextView;
 import com.rilixtech.agendacalendarview.AgendaCalendarView;
 import com.rilixtech.agendacalendarview.CalendarPickerController;
 import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
 
   private Toolbar mToolbar;
   private AgendaCalendarView mAgendaCalendarView;
+  private TextView mTvDate;
 
   // region Lifecycle methods
 
@@ -31,7 +33,11 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
     setContentView(R.layout.activity_main);
     mToolbar = findViewById(R.id.activity_toolbar);
     mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
+    mTvDate = findViewById(R.id.main_date_tv);
+
     setSupportActionBar(mToolbar);
+    getSupportActionBar().setTitle("Agenda");
+    mToolbar.setTitle("Agenda");
 
     // minimum and maximum date of our calendar
     // 2 month behind, one year ahead, example: March 2015 <-> May 2015 <-> May 2016
@@ -63,12 +69,12 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
   }
 
   @Override public void onScrollToDate(Calendar calendar) {
-    if (getSupportActionBar() != null) {
-      getSupportActionBar().setTitle(
+    //if (getSupportActionBar() != null) {
+      mTvDate.setText(
           calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
               + " "
               + calendar.get(Calendar.YEAR));
-    }
+    //}
   }
 
   private void mockList(List<CalendarEvent> eventList) {
@@ -158,6 +164,20 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         .allDay(false).build();
 
     eventList.add(event5);
+
+    Calendar startTime6 = Calendar.getInstance();
+    Calendar endTime6 = Calendar.getInstance();
+    endTime6.add(Calendar.YEAR, 1);
+    DrawableCalendarEvent event6 = new DrawableCalendarEvent.Builder().title("Revisión requerimientos")
+        .description("Diseño App")
+        .location("Despacho 1")
+        .color(ContextCompat.getColor(this, R.color.theme_event_pending))
+        .startTime(startTime6)
+        .endTime(endTime6)
+        .drawableId(R.drawable.ic_launcher)
+        .allDay(true).build();
+
+    eventList.add(event6);
   }
 
   // endregion

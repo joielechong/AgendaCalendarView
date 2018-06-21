@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="AgendaCalendarView">
-        <attr name="agendaCurrentDayTextColor" format="color" />
-        <attr name="calendarHeaderColor" format="color" />
-        <attr name="calendarColor" format="color" />
-        <attr name="calendarDayTextColor" format="color" />
-        <attr name="calendarPastDayTextColor" format="color" />
-        <attr name="calendarCurrentDayTextColor" format="color" />
-        <attr name="fabColor" format="color" />
-    </declare-styleable>
+  <declare-styleable name="AgendaCalendarView">
+    <attr format="color" name="agendaCurrentDayTextColor"/>
+    <attr format="color" name="calendarHeaderColor"/>
+    <attr format="color" name="calendarColor"/>
+    <attr format="color" name="calendarDayTextColor"/>
+    <attr format="color" name="calendarPastDayTextColor"/>
+    <attr format="color" name="calendarCurrentDayTextColor"/>
+    <attr format="color" name="fabColor"/>
+  </declare-styleable>
 </resources>
