@@ -1,3 +1,5 @@
+# Project is moved to https://gitlab.com/joielechong/AgendaCalendarView
+
 # AgendaCalendarView
 
 ## Work In Progress (WIP)
