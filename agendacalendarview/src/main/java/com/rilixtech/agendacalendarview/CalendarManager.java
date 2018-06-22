@@ -35,6 +35,7 @@ public class CalendarManager {
   private Calendar mCalendarToday = null;
   private SimpleDateFormat mWeekdayFormatter;
   private SimpleDateFormat mMonthHalfNameFormat;
+  private List<Integer> weekends = null;
 
   /**
    * List of days used by the calendar
@@ -106,6 +107,14 @@ public class CalendarManager {
 
   public SimpleDateFormat getMonthHalfNameFormat() {
     return mMonthHalfNameFormat;
+  }
+
+  public List<Integer> getWeekends() {
+    return weekends;
+  }
+
+  public void setWeekends(List<Integer> weekends) {
+    this.weekends = weekends;
   }
 
   public void buildCal(@NonNull Calendar minDate, @NonNull Calendar maxDate, @NonNull Locale locale) {
@@ -195,11 +204,24 @@ public class CalendarManager {
             isEventForDay = true;
 
             dayItem.setEventTotal(dayItem.getEventTotal() + 1);
+
+            // check if day is a weekend
+            int dayOfWeek = dayInstance.get(Calendar.DAY_OF_WEEK);
+            if(weekends != null) {
+              dayItem.setWeekend(weekends.contains(dayOfWeek));
+            }
           }
         }
         if (!isEventForDay) {
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(dayItem.getDate());
+
+          // check if day is a weekend
+          int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+          if(weekends != null) {
+            dayItem.setWeekend(weekends.contains(dayOfWeek));
+          }
+
           CalendarEvent copy = noEvent.copy();
 
           copy.setInstanceDay(calendar);

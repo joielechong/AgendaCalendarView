@@ -207,14 +207,17 @@ public class AgendaCalendarView extends FrameLayout
   }
 
   private void initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> events,
-      Locale locale) {
+      Locale locale, List<Integer> weekends) {
     CalendarManager calendarManager = CalendarManager.initInstance(getContext());
+    calendarManager.setWeekends(weekends);
     calendarManager.buildCal(minDate, maxDate, locale);
     calendarManager.loadEvents(events);
   }
 
-  private void initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> events) {
+  private void initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> events,
+      List<Integer> weekends) {
     CalendarManager calendarManager = CalendarManager.initInstance(getContext());
+    calendarManager.setWeekends(weekends);
     calendarManager.buildCal(minDate, maxDate, Locale.getDefault());
     calendarManager.loadEvents(events);
   }
@@ -224,6 +227,7 @@ public class AgendaCalendarView extends FrameLayout
   private Locale locale = null;
   private List<CalendarEvent> events = null;
   private EventRenderer<?> mEventRenderer = null;
+  private List<Integer> weekends = null;
 
   public AgendaCalendarView setMinimumDate(@NonNull Calendar minimumDate) {
     this.minimumDate = minimumDate;
@@ -255,6 +259,11 @@ public class AgendaCalendarView extends FrameLayout
     return this;
   }
 
+  public AgendaCalendarView setWeekends(@Nullable List<Integer> weekends) {
+    this.weekends = weekends;
+    return this;
+  }
+
   public void build() {
     if (minimumDate == null) throw new RuntimeException("Please set minimumDate");
     if (maximumDate == null) throw new RuntimeException("Please set maximumDate");
@@ -263,17 +272,18 @@ public class AgendaCalendarView extends FrameLayout
       throw new RuntimeException("Please set CalendarPickerController");
     }
 
-    init(minimumDate, maximumDate, events, locale, mCalendarPickerController, mEventRenderer);
+    init(minimumDate, maximumDate, events, locale, mCalendarPickerController, mEventRenderer, weekends);
   }
 
   private void init(Calendar minDate, Calendar maxDate, List<CalendarEvent> eventList,
-      Locale locale, CalendarPickerController pickerController, EventRenderer<?> eventRenderer) {
+      Locale locale, CalendarPickerController pickerController, EventRenderer<?> eventRenderer,
+      List<Integer> weekends) {
     mCalendarPickerController = pickerController;
 
     if (locale == null) {
-      initCalendarManager(minDate, maxDate, eventList);
+      initCalendarManager(minDate, maxDate, eventList, weekends);
     } else {
-      initCalendarManager(minDate, maxDate, eventList, locale);
+      initCalendarManager(minDate, maxDate, eventList, locale, weekends);
     }
 
     //CalendarManager.getInstance().loadCal(locale, weekItems, iDayItems, events);

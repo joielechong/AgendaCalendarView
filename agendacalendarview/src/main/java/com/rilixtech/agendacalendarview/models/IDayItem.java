@@ -5,8 +5,6 @@ import java.util.Date;
 
 public interface IDayItem {
 
-  // region Getters/Setters
-
   Date getDate();
 
   void setDate(Date date);
@@ -43,6 +41,10 @@ public interface IDayItem {
   void buildDayItemFromCal(Calendar calendar);
 
   String toString();
+
+  boolean isWeekend();
+
+  void setWeekend(boolean isWeekend);
 
   IDayItem copy();
 }

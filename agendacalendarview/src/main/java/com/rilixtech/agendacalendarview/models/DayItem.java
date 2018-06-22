@@ -18,8 +18,7 @@ public class DayItem implements IDayItem {
   private boolean mSelected;
   private String mMonth;
   private int mEventTotal;
-
-  // region Constructor
+  private boolean isWeekend;
 
   public DayItem(Date date, int value, boolean today, String month) {
     this.mDate = date;
@@ -34,7 +33,6 @@ public class DayItem implements IDayItem {
   }
 
   public DayItem(DayItem original) {
-
     this.mDate = original.getDate();
     this.mValue = original.getValue();
     this.mToday = original.isToday();
@@ -43,9 +41,6 @@ public class DayItem implements IDayItem {
     this.mSelected = original.isSelected();
     this.mMonth = original.getMonth();
   }
-  // endregion
-
-  // region Getters/Setters
 
   public Date getDate() {
     return mDate;
@@ -110,8 +105,6 @@ public class DayItem implements IDayItem {
     return mEventTotal;
   }
 
-  // region Public methods
-
   public void buildDayItemFromCal(Calendar calendar) {
     Date date = calendar.getTime();
     this.mDate = date;
@@ -130,9 +123,15 @@ public class DayItem implements IDayItem {
     return "DayItem{" + "Date='" + mDate.toString() + ", value=" + mValue + '}';
   }
 
+  @Override public boolean isWeekend() {
+    return isWeekend;
+  }
+
+  @Override public void setWeekend(boolean isWeekend) {
+    this.isWeekend = isWeekend;
+  }
+
   @Override public IDayItem copy() {
     return new DayItem(this);
   }
-
-  // endregion
 }

@@ -51,12 +51,15 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
     List<CalendarEvent> eventList = new ArrayList<>();
     mockList(eventList);
 
+    List<Integer> weekends = new ArrayList<>();
+    weekends.add(Calendar.SUNDAY);
     mAgendaCalendarView.setMinimumDate(minDate)
         .setMaximumDate(maxDate)
         .setCalendarEvents(eventList)
         .setLocale(Locale.getDefault())
         //.setEventRender(new DrawableEventRenderer())
         .setCalendarPickerController(this)
+        .setWeekends(weekends)
         .build();
   }
 

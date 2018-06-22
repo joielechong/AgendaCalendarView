@@ -122,6 +122,10 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
       for (int c = 0; c < dayItems.size(); c++) {
         final IDayItem dayItem = dayItems.get(c);
         RelativeLayout cellItem = mCells.get(c);
+        if(dayItem.isWeekend()) {
+          int color = cellItem.getResources().getColor(R.color.calendar_day_weekend);
+          cellItem.setBackgroundColor(color);
+        }
         //TextView tvMonth = cellItem.findViewById(R.id.view_day_month_label);
         //View circleView = cellItem.findViewById(R.id.view_day_circle_selected);
         //TextView tvDay = cellItem.findViewById(R.id.view_day_day_label);

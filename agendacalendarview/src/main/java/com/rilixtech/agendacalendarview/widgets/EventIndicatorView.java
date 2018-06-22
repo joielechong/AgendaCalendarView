@@ -56,7 +56,7 @@ public class EventIndicatorView extends View {
     mIndicatorAmount = typedArray.getInt(R.styleable.EventIndicatorView_indicatorAmount, 0);
 
     // default first color is Red
-    mFirstCircleColor = typedArray.getColor(R.styleable.EventIndicatorView_firstCircleColor, Color.RED);
+    mFirstCircleColor = typedArray.getColor(R.styleable.EventIndicatorView_firstCircleColor, Color.GREEN);
     // Default second circle color is 0xff6600ff
     mSecondCircleColor = typedArray.getColor(R.styleable.EventIndicatorView_secondCircleColor, 0xff6600ff);
 
