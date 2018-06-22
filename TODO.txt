@@ -104,8 +104,6 @@ txtDay.setText(dayLabels[i]);
 }
 }
 
-22. Can't highlight days (days that have event's ), i think it's important part in the library 
-
 23. Different text color for events
 
 24. How to scroll to a particular position in the calender from another activity?

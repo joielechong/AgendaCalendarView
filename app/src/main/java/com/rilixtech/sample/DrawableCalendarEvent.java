@@ -4,22 +4,12 @@ import com.rilixtech.agendacalendarview.models.AbstractBaseCalendarEvent;
 import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
 import com.rilixtech.agendacalendarview.models.CalendarEvent;
 
+import com.rilixtech.agendacalendarview.models.IDayItem;
+import com.rilixtech.agendacalendarview.models.IWeekItem;
 import java.util.Calendar;
 
 public class DrawableCalendarEvent extends BaseCalendarEvent {
   protected int mDrawableId;
-
-  public DrawableCalendarEvent(long id, int color, String title, String description,
-      String location, long dateStart, long dateEnd, int allDay, String duration, int drawableId) {
-    super(id, color, title, description, location, dateStart, dateEnd, allDay, duration);
-    this.mDrawableId = drawableId;
-  }
-
-  public DrawableCalendarEvent(String title, String description, String location, int color,
-      Calendar startTime, Calendar endTime, boolean allDay, int drawableId) {
-    super(title, description, location, color, startTime, endTime, allDay);
-    this.mDrawableId = drawableId;
-  }
 
   public DrawableCalendarEvent(DrawableCalendarEvent calendarEvent) {
     super(calendarEvent);
@@ -38,16 +28,17 @@ public class DrawableCalendarEvent extends BaseCalendarEvent {
     return this;
   }
 
-  // endregion
-
-  // region Class - BaseCalendarEvent
-
   @Override public CalendarEvent copy() {
     return new DrawableCalendarEvent(this);
   }
 
   public static class Builder extends
       AbstractBaseCalendarEvent.Builder<DrawableCalendarEvent, DrawableCalendarEvent.Builder> {
+
+    public Builder id(long id) {
+      obj.mId = id;
+      return thisObj;
+    }
 
     public Builder title(String title) {
       obj.mTitle = title;
@@ -79,13 +70,58 @@ public class DrawableCalendarEvent extends BaseCalendarEvent {
       return thisObj;
     }
 
+    public Builder isAllDay(boolean isAllDay) {
+      obj.mIsAllDay = isAllDay;
+      return thisObj;
+    }
+
+    public Builder isPlaceHolder(boolean isPlaceHolder) {
+      obj.mIsPlaceHolder = isPlaceHolder;
+      return thisObj;
+    }
+
+    public Builder isWeather(boolean isWeather) {
+      obj.mIsWeather = isWeather;
+      return thisObj;
+    }
+
+    public Builder duration(String duration) {
+      obj.mDuration = duration;
+      return thisObj;
+    }
+
+    public Builder dayReference(IDayItem dayReference) {
+      obj.mDayReference = dayReference;
+      return thisObj;
+    }
+
+    public Builder weekReference(IWeekItem weekReference) {
+      obj.mWeekReference = weekReference;
+      return thisObj;
+    }
+
+    public Builder weatherIcon(String weatherIcon) {
+      obj.mWeatherIcon = weatherIcon;
+      return thisObj;
+    }
+
+    public Builder temperature(double temperature) {
+      obj.mTemperature = temperature;
+      return thisObj;
+    }
+
     public Builder allDay(boolean isAllDay) {
-      obj.mAllDay = isAllDay;
+      obj.mIsAllDay = isAllDay;
       return thisObj;
     }
 
     public Builder drawableId(int drawableId) {
       obj.mDrawableId = drawableId;
+      return thisObj;
+    }
+
+    public Builder calendarDayColor(int calendarDayColor) {
+      obj.mCalendarDayColor = calendarDayColor;
       return thisObj;
     }
 

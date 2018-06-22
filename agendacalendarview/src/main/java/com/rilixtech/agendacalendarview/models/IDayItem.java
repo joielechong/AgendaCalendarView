@@ -1,5 +1,6 @@
 package com.rilixtech.agendacalendarview.models;
 
+import android.support.annotation.ColorInt;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,9 +35,8 @@ public interface IDayItem {
   void setDayOftheWeek(int mDayOftheWeek);
 
   void setEventTotal(int total);
-  int getEventTotal();
 
-  // endregion
+  int getEventTotal();
 
   void buildDayItemFromCal(Calendar calendar);
 
@@ -47,4 +47,8 @@ public interface IDayItem {
   void setWeekend(boolean isWeekend);
 
   IDayItem copy();
+
+  void setColor(@ColorInt int color);
+
+  @ColorInt int getColor();
 }

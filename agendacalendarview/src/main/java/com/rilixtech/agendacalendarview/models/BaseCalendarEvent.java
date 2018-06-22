@@ -1,5 +1,6 @@
 package com.rilixtech.agendacalendarview.models;
 
+import android.support.annotation.ColorInt;
 import java.util.Calendar;
 
 /**
@@ -10,7 +11,7 @@ public class BaseCalendarEvent extends AbstractBaseCalendarEvent {
   /**
    * Id of the event.
    */
-  private long mId;
+  protected long mId;
   /**
    * Color to be displayed in the agenda view.
    */
@@ -42,98 +43,54 @@ public class BaseCalendarEvent extends AbstractBaseCalendarEvent {
   /**
    * Indicates if the event lasts all day.
    */
-  protected boolean mAllDay;
+  protected boolean mIsAllDay;
   /**
    * Tells if this BaseCalendarEvent instance is used as a placeholder in the agenda view, if there's
    * no event for that day.
    */
-  private boolean mPlaceHolder;
+  protected boolean mIsPlaceHolder;
   /**
    * Tells if this BaseCalendarEvent instance is used as a forecast information holder in the agenda
    * view.
    */
-  private boolean mWeather;
+  protected boolean mIsWeather;
   /**
    * Duration of the event.
    */
-  private String mDuration;
+  protected String mDuration;
   /**
    * References to a DayItem instance for that event, used to link interaction between the
    * calendar view and the agenda view.
    */
-  private IDayItem mDayReference;
+  protected IDayItem mDayReference;
   /**
    * References to a WeekItem instance for that event, used to link interaction between the
    * calendar view and the agenda view.
    */
-  private IWeekItem mWeekReference;
+  protected IWeekItem mWeekReference;
   /**
    * Weather icon string returned by the Dark Sky API.
    */
-  private String mWeatherIcon;
+  protected String mWeatherIcon;
   /**
    * Temperature value returned by the Dark Sky API.
    */
-  private double mTemperature;
-
-  // region Constructor
+  protected double mTemperature;
 
   /**
-   * Initializes the event
-   *
-   * @param id The id of the event.
-   * @param color The color of the event.
-   * @param title The title of the event.
-   * @param description The description of the event.
-   * @param location The location of the event.
-   * @param dateStart The start date of the event.
-   * @param dateEnd The end date of the event.
-   * @param allDay Int that can be equal to 0 or 1.
-   * @param duration The duration of the event in RFC2445 format.
+   * Color of day in calendar. Using integer RGB value
    */
-  public BaseCalendarEvent(long id, int color, String title, String description, String location, long dateStart,
-      long dateEnd, int allDay, String duration) {
-    this.mId = id;
-    this.mColor = color;
-    this.mAllDay = (allDay == 1);
-    this.mDuration = duration;
-    this.mTitle = title;
-    this.mDescription = description;
-    this.mLocation = location;
+  protected int mCalendarDayColor;
+  
 
-    this.mStartTime = Calendar.getInstance();
-    this.mStartTime.setTimeInMillis(dateStart);
-    this.mEndTime = Calendar.getInstance();
-    this.mEndTime.setTimeInMillis(dateEnd);
-  }
-
-  public BaseCalendarEvent() {
-
-  }
-
-  /**
-   * Initializes the event
-   *
-   * @param title The title of the event.
-   * @param description The description of the event.
-   * @param location The location of the event.
-   * @param color The color of the event (for display in the app).
-   * @param startTime The start time of the event.
-   * @param endTime The end time of the event.
-   * @param allDay Indicates if the event lasts the whole day.
-   */
-  public BaseCalendarEvent(String title, String description, String location, int color, Calendar startTime,
-      Calendar endTime, boolean allDay) {
-    this.mTitle = title;
-    this.mDescription = description;
-    this.mLocation = location;
-    this.mColor = color;
-    this.mStartTime = startTime;
-    this.mEndTime = endTime;
-    this.mAllDay = allDay;
-  }
+  public BaseCalendarEvent() {}
 
   public static class Builder extends AbstractBaseCalendarEvent.Builder<BaseCalendarEvent, BaseCalendarEvent.Builder> {
+
+    public Builder id(long id) {
+      obj.mId = id;
+      return thisObj;
+    }
 
     public Builder title(String title) {
       obj.mTitle = title;
@@ -165,37 +122,80 @@ public class BaseCalendarEvent extends AbstractBaseCalendarEvent {
       return thisObj;
     }
 
-    public Builder allDay(boolean isAllDay) {
-      obj.mAllDay = isAllDay;
+    public Builder isAllDay(boolean isAllDay) {
+      obj.mIsAllDay = isAllDay;
       return thisObj;
     }
+
+    public Builder isPlaceHolder(boolean isPlaceHolder) {
+      obj.mIsPlaceHolder = isPlaceHolder;
+      return thisObj;
+    }
+
+    public Builder isWeather(boolean isWeather) {
+      obj.mIsWeather = isWeather;
+      return thisObj;
+    }
+
+    public Builder duration(String duration) {
+      obj.mDuration = duration;
+      return thisObj;
+    }
+
+    public Builder dayReference(IDayItem dayReference) {
+      obj.mDayReference = dayReference;
+      return thisObj;
+    }
+
+    public Builder weekReference(IWeekItem weekReference) {
+      obj.mWeekReference = weekReference;
+      return thisObj;
+    }
+
+    public Builder weatherIcon(String weatherIcon) {
+      obj.mWeatherIcon = weatherIcon;
+      return thisObj;
+    }
+
+    public Builder temperature(double temperature) {
+      obj.mTemperature = temperature;
+      return null;
+    }
+
+    public Builder calendarDayColor(int calendarDayColor) {
+      obj.mCalendarDayColor = calendarDayColor;
+      return thisObj;
+    }
+
     protected BaseCalendarEvent createObj() { return new BaseCalendarEvent(); }
     protected Builder getThis() { return this; }
   }
 
-
   public BaseCalendarEvent(BaseCalendarEvent calendarEvent) {
-    this.mId = calendarEvent.getId();
-    this.mColor = calendarEvent.getColor();
-    this.mAllDay = calendarEvent.isAllDay();
-    this.mDuration = calendarEvent.getDuration();
-    this.mTitle = calendarEvent.getTitle();
-    this.mDescription = calendarEvent.getDescription();
-    this.mLocation = calendarEvent.getLocation();
-    this.mStartTime = calendarEvent.getStartTime();
-    this.mEndTime = calendarEvent.getEndTime();
+    this.mId = calendarEvent.mId;
+    this.mTitle = calendarEvent.mTitle;
+    this.mColor = calendarEvent.mColor;
+    this.mDescription = calendarEvent.mDescription;
+    this.mLocation = calendarEvent.mLocation;
+    this.mStartTime = calendarEvent.mStartTime;
+    this.mEndTime = calendarEvent.mEndTime;
+    this.mIsAllDay = calendarEvent.mIsAllDay;
+    this.mIsPlaceHolder = calendarEvent.mIsPlaceHolder;
+    this.mIsWeather = calendarEvent.mIsWeather;
+    this.mDuration = calendarEvent.mDuration;
+    this.mDayReference = calendarEvent.mDayReference;
+    this.mWeekReference = calendarEvent.mWeekReference;
+    this.mWeatherIcon = calendarEvent.mWeatherIcon;
+    this.mTemperature = calendarEvent.mTemperature;
+    this.mCalendarDayColor = calendarEvent.mCalendarDayColor;
   }
-
-  // endregion
-
-  // region Getters/Setters
 
   public int getColor() {
     return mColor;
   }
 
-  public void setColor(int mColor) {
-    this.mColor = mColor;
+  public void setColor(int color) {
+    this.mColor = color;
   }
 
   public String getDescription() {
@@ -203,15 +203,15 @@ public class BaseCalendarEvent extends AbstractBaseCalendarEvent {
   }
 
   public boolean isAllDay() {
-    return mAllDay;
+    return mIsAllDay;
   }
 
   public void setAllDay(boolean allDay) {
-    this.mAllDay = allDay;
+    this.mIsAllDay = allDay;
   }
 
-  public void setDescription(String mDescription) {
-    this.mDescription = mDescription;
+  public void setDescription(String description) {
+    this.mDescription = description;
   }
 
   public Calendar getInstanceDay() {
@@ -231,16 +231,16 @@ public class BaseCalendarEvent extends AbstractBaseCalendarEvent {
     return mEndTime;
   }
 
-  public void setEndTime(Calendar mEndTime) {
-    this.mEndTime = mEndTime;
+  public void setEndTime(Calendar endTime) {
+    this.mEndTime = endTime;
   }
 
   public void setPlaceholder(boolean placeholder) {
-    mPlaceHolder = placeholder;
+    mIsPlaceHolder = placeholder;
   }
 
   public boolean isPlaceholder() {
-    return mPlaceHolder;
+    return mIsPlaceHolder;
   }
 
   public long getId() {
@@ -255,16 +255,16 @@ public class BaseCalendarEvent extends AbstractBaseCalendarEvent {
     return mLocation;
   }
 
-  public void setLocation(String mLocation) {
-    this.mLocation = mLocation;
+  public void setLocation(String location) {
+    this.mLocation = location;
   }
 
   public Calendar getStartTime() {
     return mStartTime;
   }
 
-  public void setStartTime(Calendar mStartTime) {
-    this.mStartTime = mStartTime;
+  public void setStartTime(Calendar startTime) {
+    this.mStartTime = startTime;
   }
 
   public String getTitle() {
@@ -284,19 +284,19 @@ public class BaseCalendarEvent extends AbstractBaseCalendarEvent {
   }
 
   public boolean isPlaceHolder() {
-    return mPlaceHolder;
+    return mIsPlaceHolder;
   }
 
   public void setPlaceHolder(boolean mPlaceHolder) {
-    this.mPlaceHolder = mPlaceHolder;
+    this.mIsPlaceHolder = mPlaceHolder;
   }
 
   public boolean isWeather() {
-    return mWeather;
+    return mIsWeather;
   }
 
   public void setWeather(boolean mWeather) {
-    this.mWeather = mWeather;
+    this.mIsWeather = mWeather;
   }
 
   public IDayItem getDayReference() {
@@ -327,15 +327,22 @@ public class BaseCalendarEvent extends AbstractBaseCalendarEvent {
     return mTemperature;
   }
 
-  public void setTemperature(double mTemperature) {
-    this.mTemperature = mTemperature;
+  public void setTemperature(double temperature) {
+    this.mTemperature = temperature;
+  }
+
+  @ColorInt
+  public int getCalendarDayColor() {
+    return mCalendarDayColor;
+  }
+
+  public void setCalendarDayColor(@ColorInt int calendarDayColor) {
+    this.mCalendarDayColor = calendarDayColor;
   }
 
   @Override public CalendarEvent copy() {
     return new BaseCalendarEvent(this);
   }
-
-  // endregion
 
   @Override public String toString() {
     return "BaseCalendarEvent{" + "title='" + mTitle + ", instanceDay= " + mInstanceDay.getTime() + "}";

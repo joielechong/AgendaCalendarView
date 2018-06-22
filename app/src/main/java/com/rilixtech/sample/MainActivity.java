@@ -3,7 +3,6 @@ package com.rilixtech.sample;
 import android.widget.TextView;
 import com.rilixtech.agendacalendarview.AgendaCalendarView;
 import com.rilixtech.agendacalendarview.CalendarPickerController;
-import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
 import com.rilixtech.agendacalendarview.models.CalendarEvent;
 import com.rilixtech.agendacalendarview.models.IDayItem;
 
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         .setLocale(Locale.getDefault())
         //.setEventRender(new DrawableEventRenderer())
         .setCalendarPickerController(this)
-        .setWeekendsColor(getResources().getColor(android.R.color.background_dark))
+        //.setWeekendsColor(getResources().getColor(android.R.color.background_dark))
         .setWeekends(weekends)
         .build();
   }
@@ -165,23 +164,10 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         .startTime(startTime5)
         .endTime(endTime5)
         .drawableId(R.drawable.ic_launcher)
+        .calendarDayColor(ContextCompat.getColor(this, R.color.orange_dark))
         .allDay(false).build();
 
     eventList.add(event5);
-
-    Calendar startTime6 = Calendar.getInstance();
-    Calendar endTime6 = Calendar.getInstance();
-    endTime6.add(Calendar.YEAR, 1);
-    DrawableCalendarEvent event6 = new DrawableCalendarEvent.Builder().title("Revisión requerimientos")
-        .description("Diseño App")
-        .location("Despacho 1")
-        .color(ContextCompat.getColor(this, R.color.theme_event_pending))
-        .startTime(startTime6)
-        .endTime(endTime6)
-        .drawableId(R.drawable.ic_launcher)
-        .allDay(true).build();
-
-    eventList.add(event6);
   }
 
   // endregion

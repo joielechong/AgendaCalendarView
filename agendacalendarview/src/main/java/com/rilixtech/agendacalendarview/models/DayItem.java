@@ -1,5 +1,6 @@
 package com.rilixtech.agendacalendarview.models;
 
+import android.support.annotation.ColorInt;
 import com.rilixtech.agendacalendarview.CalendarManager;
 import com.rilixtech.agendacalendarview.utils.DateHelper;
 
@@ -19,13 +20,7 @@ public class DayItem implements IDayItem {
   private String mMonth;
   private int mEventTotal;
   private boolean isWeekend;
-
-  public DayItem(Date date, int value, boolean today, String month) {
-    this.mDate = date;
-    this.mValue = value;
-    this.mToday = today;
-    this.mMonth = month;
-  }
+  private int color;
 
   // only for cleanDay
   public DayItem() {
@@ -40,6 +35,7 @@ public class DayItem implements IDayItem {
     this.mFirstDayOfTheMonth = original.isFirstDayOfTheMonth();
     this.mSelected = original.isSelected();
     this.mMonth = original.getMonth();
+    this.color = original.getColor();
   }
 
   public Date getDate() {
@@ -101,6 +97,7 @@ public class DayItem implements IDayItem {
   public void setEventTotal(int eventTotal) {
     mEventTotal = eventTotal;
   }
+
   public int getEventTotal() {
     return mEventTotal;
   }
@@ -117,7 +114,13 @@ public class DayItem implements IDayItem {
     }
   }
 
-  // endregion
+  @Override @ColorInt public int getColor() {
+    return color;
+  }
+
+  @Override public void setColor(@ColorInt int color) {
+    this.color = color;
+  }
 
   @Override public String toString() {
     return "DayItem{" + "Date='" + mDate.toString() + ", value=" + mValue + '}';

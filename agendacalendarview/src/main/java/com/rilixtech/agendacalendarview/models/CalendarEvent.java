@@ -1,5 +1,7 @@
 package com.rilixtech.agendacalendarview.models;
 
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import java.util.Calendar;
 
 public interface CalendarEvent {
@@ -39,6 +41,11 @@ public interface CalendarEvent {
   IWeekItem getWeekReference();
 
   void setWeekReference(IWeekItem mWeekReference);
+
+
+  void setCalendarDayColor(@ColorInt int color);
+
+  @ColorInt int getCalendarDayColor();
 
   CalendarEvent copy();
 }

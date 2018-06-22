@@ -1,5 +1,7 @@
 # AgendaCalendarView
 
+## Work In Progress (WIP)
+
 This library replicates the basic features of the Calendar and Agenda views from the Sunrise Calendar (now Outlook) app, coupled with some small design touch from the Google Calendar app.  
 
 ![](https://raw.githubusercontent.com/joielechong/AgendaCalendarView/master/demo.gif)

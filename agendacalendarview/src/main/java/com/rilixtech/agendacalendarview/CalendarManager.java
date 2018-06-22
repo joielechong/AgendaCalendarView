@@ -128,7 +128,6 @@ public class CalendarManager {
 
   public void buildCal(@NonNull Calendar minDate, @NonNull Calendar maxDate, @NonNull Locale locale) {
     setLocale(locale);
-
     mDays.clear();
     mWeeks.clear();
     mEvents.clear();
@@ -140,7 +139,6 @@ public class CalendarManager {
     // Now we iterate between minDate and maxDate so we init our list of weeks
     int maxMonth = maxDate.get(Calendar.MONTH);
     int maxYear = maxDate.get(Calendar.YEAR);
-
     int currentMonth = minDate.get(Calendar.MONTH);
     int currentYear = minDate.get(Calendar.YEAR);
 
@@ -158,7 +156,6 @@ public class CalendarManager {
       Log.d(TAG, String.format("Adding week: %s", weekItem));
 
       minDate.add(Calendar.WEEK_OF_YEAR, 1);
-
       currentMonth = minDate.get(Calendar.MONTH);
       currentYear = minDate.get(Calendar.YEAR);
     }
@@ -199,8 +196,7 @@ public class CalendarManager {
         DayItem dayItem = (DayItem) weekItem.getDayItems().get(i);
         boolean isEventForDay = false;
         for (CalendarEvent event : eventList) {
-          if (DateHelper.isBetweenInclusive(dayItem.getDate(), event.getStartTime(),
-              event.getEndTime())) {
+          if (DateHelper.isBetweenInclusive(dayItem.getDate(), event.getStartTime(), event.getEndTime())) {
             CalendarEvent copy = event.copy();
 
             Calendar dayInstance = Calendar.getInstance();
@@ -219,6 +215,9 @@ public class CalendarManager {
             if(weekends != null) {
               dayItem.setWeekend(weekends.contains(dayOfWeek));
             }
+
+            Log.d(TAG, "event.getCalendarDayColor() = " + event.getCalendarDayColor());
+            dayItem.setColor(event.getCalendarDayColor());
           }
         }
         if (!isEventForDay) {
@@ -227,12 +226,9 @@ public class CalendarManager {
 
           // check if day is a weekend
           int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-          if(weekends != null) {
-            dayItem.setWeekend(weekends.contains(dayOfWeek));
-          }
+          if(weekends != null) dayItem.setWeekend(weekends.contains(dayOfWeek));
 
           CalendarEvent copy = noEvent.copy();
-
           copy.setInstanceDay(calendar);
           copy.setDayReference(dayItem);
           copy.setWeekReference(weekItem);

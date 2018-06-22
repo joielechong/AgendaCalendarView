@@ -27,8 +27,6 @@ public class AgendaView extends FrameLayout {
   private View mShadowView;
   private boolean enablePlaceholder = true;
 
-  // region Constructors
-
   public AgendaView(Context context) {
     super(context);
   }
@@ -39,10 +37,6 @@ public class AgendaView extends FrameLayout {
     LayoutInflater inflater = LayoutInflater.from(context);
     inflater.inflate(R.layout.view_agenda, this, true);
   }
-
-  // endregion
-
-  // region Class - View
 
   @Override protected void onFinishInflate() {
     super.onFinishInflate();
