@@ -36,6 +36,7 @@ public class CalendarManager {
   private SimpleDateFormat mWeekdayFormatter;
   private SimpleDateFormat mMonthHalfNameFormat;
   private List<Integer> weekends = null;
+  private int mWeekendsColor;
 
   /**
    * List of days used by the calendar
@@ -115,6 +116,14 @@ public class CalendarManager {
 
   public void setWeekends(List<Integer> weekends) {
     this.weekends = weekends;
+  }
+
+  public int getWeekendsColor() {
+    return mWeekendsColor;
+  }
+
+  public void setWeekendsColor(int weekendsColor) {
+    this.mWeekendsColor = weekendsColor;
   }
 
   public void buildCal(@NonNull Calendar minDate, @NonNull Calendar maxDate, @NonNull Locale locale) {

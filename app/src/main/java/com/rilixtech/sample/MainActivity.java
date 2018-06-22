@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         .setLocale(Locale.getDefault())
         //.setEventRender(new DrawableEventRenderer())
         .setCalendarPickerController(this)
+        .setWeekendsColor(getResources().getColor(android.R.color.background_dark))
         .setWeekends(weekends)
         .build();
   }

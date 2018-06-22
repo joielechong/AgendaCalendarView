@@ -113,6 +113,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 
     private void bindWeek(IWeekItem weekItem, Calendar today) {
       Log.d(TAG, "bindWeek called");
+      CalendarManager calendarManager = CalendarManager.getInstance();
       setUpMonthOverlay();
       //if(true) return;
 
@@ -123,8 +124,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
         final IDayItem dayItem = dayItems.get(c);
         RelativeLayout cellItem = mCells.get(c);
         if(dayItem.isWeekend()) {
-          int color = cellItem.getResources().getColor(R.color.calendar_day_weekend);
-          cellItem.setBackgroundColor(color);
+          cellItem.setBackgroundColor(calendarManager.getWeekendsColor());
         }
         //TextView tvMonth = cellItem.findViewById(R.id.view_day_month_label);
         //View circleView = cellItem.findViewById(R.id.view_day_circle_selected);
@@ -188,7 +188,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
           mTvMonth.setVisibility(View.VISIBLE);
           SimpleDateFormat monthDateFormat =
               new SimpleDateFormat(mContext.getResources().getString(R.string.month_name_format),
-                  CalendarManager.getInstance().getLocale());
+                  calendarManager.getLocale());
           String month = monthDateFormat.format(weekItem.getDate()).toUpperCase();
           if (today.get(Calendar.YEAR) != weekItem.getYear()) {
             month = month + String.format(" %d", weekItem.getYear());

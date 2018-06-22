@@ -8,5 +8,6 @@
     <attr format="color" name="calendarPastDayTextColor"/>
     <attr format="color" name="calendarCurrentDayTextColor"/>
     <attr format="color" name="fabColor"/>
+    <attr format="color" name="weekendColor"/>
   </declare-styleable>
 </resources>

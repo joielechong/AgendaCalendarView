@@ -52,6 +52,7 @@ public class AgendaCalendarView extends FrameLayout
   private int mCalendarPastDayTextColor;
   private int mCalendarCurrentDayColor;
   private int mFabColor;
+  private int mWeekendColor;
 
   private CalendarPickerController mCalendarPickerController;
   private ListViewScrollTracker mAlvScrollTracker;
@@ -102,6 +103,8 @@ public class AgendaCalendarView extends FrameLayout
     int defCalCurrentDayColor = getResources().getColor(R.color.calendar_text_current_day);
     int defPastDayTextColor = getResources().getColor(R.color.theme_light_primary);
 
+    int weekendColor = getResources().getColor(R.color.calendar_day_weekend);
+
     mAgendaCurrentDayTextColor =
         a.getColor(R.styleable.AgendaCalendarView_agendaCurrentDayTextColor,
             defAgendaCurrentDayTextColor);
@@ -117,6 +120,7 @@ public class AgendaCalendarView extends FrameLayout
     mCalendarPastDayTextColor =
         a.getColor(R.styleable.AgendaCalendarView_calendarPastDayTextColor, defPastDayTextColor);
     mFabColor = a.getColor(R.styleable.AgendaCalendarView_fabColor, defFabColor);
+    mWeekendColor = a.getColor(R.styleable.AgendaCalendarView_weekendColor, weekendColor);
 
     setAlpha(0f);
     a.recycle();
@@ -207,17 +211,19 @@ public class AgendaCalendarView extends FrameLayout
   }
 
   private void initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> events,
-      Locale locale, List<Integer> weekends) {
+      Locale locale, List<Integer> weekends, int weekendColor) {
     CalendarManager calendarManager = CalendarManager.initInstance(getContext());
     calendarManager.setWeekends(weekends);
+    calendarManager.setWeekendsColor(weekendColor);
     calendarManager.buildCal(minDate, maxDate, locale);
     calendarManager.loadEvents(events);
   }
 
   private void initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> events,
-      List<Integer> weekends) {
+      List<Integer> weekends, int weekendColor) {
     CalendarManager calendarManager = CalendarManager.initInstance(getContext());
     calendarManager.setWeekends(weekends);
+    calendarManager.setWeekendsColor(weekendColor);
     calendarManager.buildCal(minDate, maxDate, Locale.getDefault());
     calendarManager.loadEvents(events);
   }
@@ -264,6 +270,11 @@ public class AgendaCalendarView extends FrameLayout
     return this;
   }
 
+  public AgendaCalendarView setWeekendsColor(int weekendsColor) {
+    this.mWeekendColor = weekendsColor;
+    return this;
+  }
+
   public void build() {
     if (minimumDate == null) throw new RuntimeException("Please set minimumDate");
     if (maximumDate == null) throw new RuntimeException("Please set maximumDate");
@@ -272,18 +283,19 @@ public class AgendaCalendarView extends FrameLayout
       throw new RuntimeException("Please set CalendarPickerController");
     }
 
-    init(minimumDate, maximumDate, events, locale, mCalendarPickerController, mEventRenderer, weekends);
+    init(minimumDate, maximumDate, events, locale, mCalendarPickerController, mEventRenderer,
+        weekends, mWeekendColor);
   }
 
   private void init(Calendar minDate, Calendar maxDate, List<CalendarEvent> eventList,
       Locale locale, CalendarPickerController pickerController, EventRenderer<?> eventRenderer,
-      List<Integer> weekends) {
+      List<Integer> weekends, int weekendColor) {
     mCalendarPickerController = pickerController;
 
     if (locale == null) {
-      initCalendarManager(minDate, maxDate, eventList, weekends);
+      initCalendarManager(minDate, maxDate, eventList, weekends, weekendColor);
     } else {
-      initCalendarManager(minDate, maxDate, eventList, locale, weekends);
+      initCalendarManager(minDate, maxDate, eventList, locale, weekends, weekendColor);
     }
 
     //CalendarManager.getInstance().loadCal(locale, weekItems, iDayItems, events);
